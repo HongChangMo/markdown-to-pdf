@@ -1,0 +1,129 @@
+# Feature Tracker
+# Keep exactly one feature in `in_progress` status at a time.
+
+features:
+  - id: web-app-design
+    priority: 1
+    area: planning
+    title: Define Markdown-to-PDF web app design
+    user_visible_behavior: >
+      The project has an approved implementation design for a web app that lets
+      users edit Markdown, preview the document, adjust PDF styles, and export a
+      PDF.
+    status: passing
+    verification:
+      - Review the proposed web app workflow.
+      - Review the editor, preview, style controls, and export behavior.
+      - Review supported Markdown features and non-goals.
+      - Confirm that the user approves the design.
+    evidence:
+      - "2026-07-02: Draft design written at docs/markdown-to-pdf-cli-design.md."
+      - "2026-07-02: User decided to change direction from CLI to web app."
+      - "2026-07-02: User selected Next.js, TypeScript, and Playwright as the project stack."
+      - "2026-07-02: Draft design written at docs/markdown-to-pdf-web-app-design.md."
+      - "2026-07-02: User approved writing the implementation plan."
+      - "2026-07-02: Implementation plan written at docs/markdown-to-pdf-web-app-implementation-plan.md."
+      - "2026-07-02: Web app design marked approved in docs/markdown-to-pdf-web-app-design.md."
+    notes: >
+      CLI direction was superseded. Web app design was approved for
+      implementation planning.
+
+  - id: project-scaffold
+    priority: 2
+    area: infrastructure
+    title: Create Next.js TypeScript project scaffold
+    user_visible_behavior: >
+      The repository contains a runnable web app project with a development
+      server.
+    status: in_progress
+    verification:
+      - Start the development server.
+      - Open the app in a browser.
+      - Run the test suite.
+      - Confirm packaging metadata is valid.
+    evidence: []
+    notes: >
+      Selected stack is Next.js, TypeScript, and Playwright.
+
+  - id: markdown-to-html
+    priority: 3
+    area: conversion
+    title: Convert Markdown to HTML
+    user_visible_behavior: >
+      Markdown headings, lists, tables, code blocks, images, and links are
+      represented correctly in generated HTML.
+    status: not_started
+    verification:
+      - Convert a sample Markdown file.
+      - Inspect generated HTML structure or snapshot.
+      - Run parser-focused automated tests.
+    evidence: []
+    notes: >
+      React Markdown with GitHub Flavored Markdown support is recommended in
+      the web app design draft.
+
+  - id: live-preview
+    priority: 4
+    area: preview
+    title: Show live document preview
+    user_visible_behavior: >
+      As the user edits Markdown, the preview pane updates to show the rendered
+      document with current style settings.
+    status: not_started
+    verification:
+      - Type Markdown in the editor.
+      - Confirm headings, lists, tables, code blocks, links, images, and Korean text render in the preview.
+      - Change style controls and confirm the preview updates.
+    evidence: []
+    notes: >
+      Preview rendering should share the same document CSS used for PDF export.
+
+  - id: style-editor
+    priority: 5
+    area: editor
+    title: Adjust PDF-oriented styles before export
+    user_visible_behavior: >
+      The user can change font size, line height, page margin, page size, and
+      code block styling before generating the PDF.
+    status: not_started
+    verification:
+      - Change font size and confirm preview text updates.
+      - Change line height and confirm preview spacing updates.
+      - Change margin or page size and confirm page layout updates.
+    evidence: []
+    notes: >
+      This replaces post-generation PDF editing for layout changes.
+
+  - id: pdf-export
+    priority: 6
+    area: conversion
+    title: Export preview layout to PDF
+    user_visible_behavior: >
+      Clicking export downloads a PDF that matches the preview layout closely.
+    status: not_started
+    verification:
+      - Enter a sample Markdown document in the web app.
+      - Apply non-default style settings.
+      - Export the document to PDF.
+      - Confirm the PDF exists and has at least one page.
+      - Confirm Korean text and code block styling are readable.
+    evidence: []
+    notes: >
+      Playwright/Chromium is recommended for export, pending web app design
+      approval.
+
+  - id: error-handling
+    priority: 7
+    area: web
+    title: Provide clear web UI errors
+    user_visible_behavior: >
+      Invalid Markdown input, unsupported assets, and export failures produce
+      clear messages in the web UI.
+    status: not_started
+    verification:
+      - Trigger an export failure.
+      - Add an unsupported or missing image reference.
+      - Confirm the UI shows actionable messages.
+    evidence: []
+    notes: >
+      Error style will follow the selected web app design.
