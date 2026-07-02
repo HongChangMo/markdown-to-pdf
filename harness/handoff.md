@@ -13,6 +13,8 @@
 - The implementation plan exists at `docs/markdown-to-pdf-web-app-implementation-plan.md`.
 - The previous CLI draft exists at `docs/markdown-to-pdf-cli-design.md` and is
   now superseded.
+- `AGENTS.md` explicitly requires automatic updates to `harness/progress-log.md`,
+  `harness/feature-list.json`, and `harness/handoff.md`.
 
 ## Changes This Session
 
@@ -30,19 +32,23 @@
 - Marked the web app design as approved for implementation planning.
 - Created `docs/markdown-to-pdf-web-app-implementation-plan.md`.
 - Replaced `harness/feature-tracker.yaml` with `harness/feature-list.json`.
+- Verified and strengthened `AGENTS.md` harness auto-update rules.
+- Completed editor, preview, and style panel implementation.
+- Started PDF export implementation with a failing E2E test.
 
 ## Still Broken Or Unverified
 
-- Implementation has not started.
-- Web app scaffold exists and initial lint/test baseline passed.
-- No Markdown parser or PDF export renderer has been installed or verified.
+- Implementation is in progress.
+- Web app scaffold exists.
+- Markdown rendering, live preview, and style controls are implemented and verified.
+- PDF export renderer has not been implemented yet.
 - Korean font rendering in PDF has not been validated.
-- No tests or verification commands exist yet.
+- Full final verification has not been run yet.
 
 ## Next Best Action
 
-Choose execution mode, then start Task 1 in
-`docs/markdown-to-pdf-web-app-implementation-plan.md`.
+Continue Task 6 in `docs/markdown-to-pdf-web-app-implementation-plan.md` by
+implementing the export page, PDF API, and Export PDF button.
 
 Implementation may require network access for `npx`, `npm install`, and
 Playwright browser installation.
@@ -59,7 +65,10 @@ rg --files -uu
 Verification:
 
 ```bash
-# Not defined yet.
+npm run lint
+npm run test
+npm run test:e2e
+npm run build
 ```
 
 Debug:

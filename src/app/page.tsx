@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import styles from "@/components/AppShell.module.css";
+import { ExportButton } from "@/components/ExportButton";
 import { MarkdownEditor } from "@/components/MarkdownEditor";
 import { PreviewPane } from "@/components/PreviewPane";
 import { StylePanel } from "@/components/StylePanel";
@@ -20,6 +21,7 @@ export default function Home() {
           value={document.title}
           onChange={(event) => setDocument({ ...document, title: event.target.value })}
         />
+        <ExportButton document={document} />
       </header>
       <div className={styles.workspace}>
         <section className={styles.pane}>

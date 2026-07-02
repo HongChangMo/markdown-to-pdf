@@ -21,6 +21,38 @@ Treat `harness/progress-log.md` as the source of truth for the current verified 
 - Record verification evidence immediately after running checks.
 - Keep exactly one feature in `in_progress` status in `harness/feature-list.json`.
 
+## Harness Files
+
+Current harness files:
+
+- `harness/progress-log.md`: source of truth for verified project state and session records.
+- `harness/feature-list.json`: machine-readable feature list, status, verification steps, and evidence.
+- `harness/handoff.md`: concise next-session handoff.
+
+## Automatic Harness Updates
+
+Agents must update harness files during the session, not only at the end.
+
+Update `harness/feature-list.json` when:
+
+- A feature starts: set that feature to `in_progress`.
+- A feature passes verification: set that feature to `passing` and add evidence.
+- Work is blocked: set that feature to `blocked` and document the blocker.
+- The next feature begins: ensure the previous feature is no longer `in_progress`.
+
+Update `harness/progress-log.md` when:
+
+- The verified project state changes.
+- A session reaches a meaningful checkpoint.
+- Verification commands are run and produce evidence.
+- A blocker or risk is discovered.
+
+Update `harness/handoff.md` when:
+
+- The next best action changes.
+- The startup, verification, or debug commands change.
+- A future session would need new context to continue safely.
+
 ## Session Closeout
 
 Before ending a substantial session, update:

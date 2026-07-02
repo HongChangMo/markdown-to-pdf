@@ -30,6 +30,8 @@ export function DocumentRenderer({ document, exportReady = false }: DocumentRend
                 return <span role="note">Image unavailable: {src}</span>;
               }
 
+              // Markdown image assets are data URLs, so Next Image optimization is not useful here.
+              // eslint-disable-next-line @next/next/no-img-element
               return <img src={resolvedSrc} alt={alt ?? ""} />;
             },
           }}

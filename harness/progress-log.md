@@ -328,3 +328,54 @@ Next best action:
 ```text
 Continue Task 2 in `docs/markdown-to-pdf-web-app-implementation-plan.md`.
 ```
+
+### 2026-07-02 - AGENTS harness rules verified
+
+Goal:
+
+```text
+Verify that `AGENTS.md` accurately describes automatic management of `./harness` documents.
+```
+
+Completed:
+
+```text
+Confirmed `AGENTS.md` references the active harness files: `progress-log.md`, `feature-list.json`, and `handoff.md`.
+Added explicit automatic harness update rules to `AGENTS.md`.
+Verified `harness/feature-list.json` is valid JSON and has exactly one `in_progress` feature: `pdf-export`.
+Updated `harness/feature-list.json` and `harness/handoff.md` with the current implementation checkpoint.
+```
+
+Verification run:
+
+```text
+Read `AGENTS.md`.
+Listed current files under `harness/` and `docs/`.
+Searched references to `feature-list.json` and `feature-tracker.yaml`.
+Validated `harness/feature-list.json` with Node.js and checked the single `in_progress` rule.
+```
+
+Evidence recorded:
+
+```text
+`AGENTS.md` now contains `Harness Files` and `Automatic Harness Updates` sections.
+`feature-list.json` currently has exactly one active feature: `pdf-export`.
+```
+
+Commits:
+
+```text
+Not committed yet. Current PDF export implementation task is still in progress.
+```
+
+Known risks:
+
+```text
+Historical progress log entries still mention `feature-tracker.yaml` because they describe past actions before conversion to JSON.
+```
+
+Next best action:
+
+```text
+Continue Task 6 by implementing the export page, PDF API, and Export PDF button.
+```

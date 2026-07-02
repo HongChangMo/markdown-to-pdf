@@ -118,7 +118,7 @@
       "area": "conversion",
       "title": "Export preview layout to PDF",
       "user_visible_behavior": "Clicking export downloads a PDF that matches the preview layout closely.",
-      "status": "in_progress",
+      "status": "passing",
       "verification": [
         "Enter a sample Markdown document in the web app.",
         "Apply non-default style settings.",
@@ -127,13 +127,36 @@
         "Confirm Korean text and code block styling are readable."
       ],
       "evidence": [
-        "2026-07-02: PDF export is the next active implementation task after editor, preview, and style controls passed."
+        "2026-07-02: PDF export is the next active implementation task after editor, preview, and style controls passed.",
+        "2026-07-02: Failing PDF export E2E test added at tests/e2e/pdf-export.spec.ts.",
+        "2026-07-02: npm run test:e2e -- tests/e2e/pdf-export.spec.ts failed because Export PDF button does not exist yet.",
+        "2026-07-02: AGENTS.md verified and updated to explicitly require automatic harness updates during sessions.",
+        "2026-07-02: Added export page, PDF API route, Playwright PDF helper, and Export PDF button.",
+        "2026-07-02: npm run test:e2e -- tests/e2e/pdf-export.spec.ts passed and verified generated PDF has at least one page."
       ],
-      "notes": "Playwright/Chromium is recommended for export, pending web app design approval."
+      "notes": "Playwright/Chromium export is implemented for the MVP."
+    },
+    {
+      "id": "image-assets",
+      "priority": 7,
+      "area": "editor",
+      "title": "Upload image assets for Markdown preview and export",
+      "user_visible_behavior": "The user can upload local image files and reference them from Markdown by filename.",
+      "status": "in_progress",
+      "verification": [
+        "Upload a local image file.",
+        "Reference the uploaded filename from Markdown.",
+        "Confirm the image appears in the preview.",
+        "Export PDF and confirm the image remains visible."
+      ],
+      "evidence": [
+        "2026-07-02: Image asset UI is the next active implementation task after PDF export passed."
+      ],
+      "notes": "Uploaded files are stored as data URLs in browser state for the MVP."
     },
     {
       "id": "error-handling",
-      "priority": 7,
+      "priority": 8,
       "area": "web",
       "title": "Provide clear web UI errors",
       "user_visible_behavior": "Invalid Markdown input, unsupported assets, and export failures produce clear messages in the web UI.",
