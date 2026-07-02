@@ -25,9 +25,10 @@ export function DocumentRenderer({ document, exportReady = false }: DocumentRend
           rehypePlugins={[rehypeSanitize]}
           components={{
             img: ({ src, alt }) => {
-              const resolvedSrc = resolveMarkdownImageSrc(src, document.assets);
+              const rawSrc = typeof src === "string" ? src : undefined;
+              const resolvedSrc = resolveMarkdownImageSrc(rawSrc, document.assets);
               if (!resolvedSrc) {
-                return <span role="note">Image unavailable: {src}</span>;
+                return <span role="note">Image unavailable: {rawSrc ?? "unknown source"}</span>;
               }
 
               // Markdown image assets are data URLs, so Next Image optimization is not useful here.

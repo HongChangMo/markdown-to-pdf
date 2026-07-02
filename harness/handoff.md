@@ -4,7 +4,7 @@
 
 - The working directory is `/Users/zzangmo/project/mdToPdf`.
 - The directory had no project files before harness setup.
-- The directory is not currently a git repository.
+- The directory is now a git repository.
 - The project direction changed to a web app for Markdown editing, live preview,
   style controls, and PDF export.
 - The selected stack is Next.js, TypeScript, and Playwright.
@@ -15,6 +15,7 @@
   now superseded.
 - `AGENTS.md` explicitly requires automatic updates to `harness/progress-log.md`,
   `harness/feature-list.json`, and `harness/handoff.md`.
+- The web app MVP is implemented and verified.
 
 ## Changes This Session
 
@@ -35,20 +36,21 @@
 - Verified and strengthened `AGENTS.md` harness auto-update rules.
 - Completed editor, preview, and style panel implementation.
 - Started PDF export implementation with a failing E2E test.
+- Completed PDF export, uploaded image assets, clear error handling, and final verification.
 
 ## Still Broken Or Unverified
 
-- Implementation is in progress.
+- Implementation for the current MVP scope is complete.
 - Web app scaffold exists.
 - Markdown rendering, live preview, and style controls are implemented and verified.
-- PDF export renderer has not been implemented yet.
-- Korean font rendering in PDF has not been validated.
-- Full final verification has not been run yet.
+- PDF export is implemented and verified.
+- Uploaded image assets are implemented and verified in preview and PDF export flow.
+- Korean text is covered by unit and E2E sample documents.
+- Full final verification passed.
 
 ## Next Best Action
 
-Continue Task 6 in `docs/markdown-to-pdf-web-app-implementation-plan.md` by
-implementing the export page, PDF API, and Export PDF button.
+Start the development server and manually review the app in the browser.
 
 Implementation may require network access for `npx`, `npm install`, and
 Playwright browser installation.
@@ -58,8 +60,7 @@ Playwright browser installation.
 Startup:
 
 ```bash
-pwd
-rg --files -uu
+npm run dev
 ```
 
 Verification:
@@ -74,5 +75,5 @@ npm run build
 Debug:
 
 ```bash
-# Not defined yet.
+npm run test:e2e -- --debug
 ```

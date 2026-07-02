@@ -19,7 +19,7 @@ Treat `harness/progress-log.md` as the source of truth for the current verified 
 - Keep harness engineering and session continuity documents under `harness/`.
 - Update harness files whenever project state changes.
 - Record verification evidence immediately after running checks.
-- Keep exactly one feature in `in_progress` status in `harness/feature-list.json`.
+- Keep at most one feature in `in_progress` status in `harness/feature-list.json`.
 
 ## Harness Files
 
@@ -39,6 +39,7 @@ Update `harness/feature-list.json` when:
 - A feature passes verification: set that feature to `passing` and add evidence.
 - Work is blocked: set that feature to `blocked` and document the blocker.
 - The next feature begins: ensure the previous feature is no longer `in_progress`.
+- The current implementation scope completes: leave no feature in `in_progress`.
 
 Update `harness/progress-log.md` when:
 

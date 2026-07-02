@@ -14,25 +14,28 @@ Repository root directory:
 Standard startup path:
 
 ```text
-Not defined yet. Project scaffold has not been created.
+npm run dev
 ```
 
 Standard verification path:
 
 ```text
-Not defined yet. Test tooling has not been selected.
+npm run lint
+npm run test
+npm run test:e2e
+npm run build
 ```
 
 Highest priority unfinished feature:
 
 ```text
-Create the Next.js TypeScript project scaffold.
+None for the current MVP scope.
 ```
 
 Current blocker:
 
 ```text
-No implementation blocker. Awaiting implementation execution choice.
+None.
 ```
 
 ## Session Records
@@ -378,4 +381,65 @@ Next best action:
 
 ```text
 Continue Task 6 by implementing the export page, PDF API, and Export PDF button.
+```
+
+### 2026-07-02 - MVP implementation verified
+
+Goal:
+
+```text
+Finish implementation and run final verification for the Markdown-to-PDF web app MVP.
+```
+
+Completed:
+
+```text
+Implemented Next.js TypeScript app scaffold.
+Implemented shared document state, validation, asset helpers, Markdown renderer, editor, live preview, style controls, PDF export, uploaded image assets, and clear error messages.
+Updated `AGENTS.md` to use the correct at-most-one `in_progress` feature rule.
+Updated `docs/README.md`, `harness/feature-list.json`, and `harness/handoff.md`.
+```
+
+Verification run:
+
+```text
+npm run lint
+npm run test
+npm run test:e2e
+npm run build
+```
+
+Evidence recorded:
+
+```text
+`npm run lint` passed.
+`npm run test` passed with 3 test files and 9 tests.
+`npm run test:e2e` passed with 6 tests.
+`npm run build` passed.
+```
+
+Commits:
+
+```text
+578f8b7 chore: scaffold nextjs markdown pdf app
+5440c4e feat: add document state and style utilities
+e55e125 feat: validate document state and assets
+84934db feat: render markdown document preview
+6efaac6 feat: add markdown editor live preview and style panel
+940c2b0 feat: export preview document to pdf
+920fb62 feat: add uploaded image assets
+6b20a6e feat: show clear export errors
+```
+
+Known risks:
+
+```text
+Manual visual review in a real browser is still recommended.
+PDF visual fidelity is covered by E2E generation and page-count checks, not pixel inspection.
+```
+
+Next best action:
+
+```text
+Start `npm run dev` and manually review the editor, preview, style controls, image upload, and exported PDF.
 ```

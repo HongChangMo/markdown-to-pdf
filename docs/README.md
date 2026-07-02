@@ -4,10 +4,25 @@ Design documents and specifications for this project live in this directory.
 
 ## Current Design Status
 
-The project direction changed from a CLI tool to a web application.
+The web app MVP has been implemented.
+
+Run locally:
+
+```bash
+npm run dev
+```
+
+Verify:
+
+```bash
+npm run lint
+npm run test
+npm run test:e2e
+npm run build
+```
+
 The previous CLI design is preserved for reference but is no longer the active
-target. The web app design is approved and the implementation plan has been
-written.
+target.
 
 Selected direction:
 
