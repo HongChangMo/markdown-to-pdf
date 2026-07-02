@@ -67,7 +67,11 @@
         "2026-07-02: Failing validation and asset tests added at tests/unit/document-validation.test.ts.",
         "2026-07-02: npm run test -- tests/unit/document-validation.test.ts failed because asset and validation modules did not exist yet.",
         "2026-07-02: Added Zod document validation and uploaded image asset helpers.",
-        "2026-07-02: npm run test -- tests/unit/document-validation.test.ts passed with 4 tests."
+        "2026-07-02: npm run test -- tests/unit/document-validation.test.ts passed with 4 tests.",
+        "2026-07-02: Failing renderer tests added at tests/unit/document-renderer.test.tsx.",
+        "2026-07-02: npm run test -- tests/unit/document-renderer.test.tsx failed because DocumentRenderer did not exist.",
+        "2026-07-02: Added shared React Markdown DocumentRenderer and document CSS.",
+        "2026-07-02: npm run test -- tests/unit/document-renderer.test.tsx passed with 2 tests."
       ],
       "notes": "React Markdown with GitHub Flavored Markdown support is recommended in the web app design draft. Current work is adding shared document model and style utilities first."
     },
