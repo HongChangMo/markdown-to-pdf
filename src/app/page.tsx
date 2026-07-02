@@ -3,6 +3,7 @@
 import { useState } from "react";
 import styles from "@/components/AppShell.module.css";
 import { ExportButton } from "@/components/ExportButton";
+import { ImageAssetPanel } from "@/components/ImageAssetPanel";
 import { MarkdownEditor } from "@/components/MarkdownEditor";
 import { PreviewPane } from "@/components/PreviewPane";
 import { StylePanel } from "@/components/StylePanel";
@@ -37,6 +38,10 @@ export default function Home() {
           <StylePanel
             value={document.style}
             onChange={(style) => setDocument({ ...document, style })}
+          />
+          <ImageAssetPanel
+            assets={document.assets}
+            onChange={(assets) => setDocument({ ...document, assets })}
           />
         </section>
       </div>

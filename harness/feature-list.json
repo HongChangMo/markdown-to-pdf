@@ -142,7 +142,7 @@
       "area": "editor",
       "title": "Upload image assets for Markdown preview and export",
       "user_visible_behavior": "The user can upload local image files and reference them from Markdown by filename.",
-      "status": "in_progress",
+      "status": "passing",
       "verification": [
         "Upload a local image file.",
         "Reference the uploaded filename from Markdown.",
@@ -150,7 +150,13 @@
         "Export PDF and confirm the image remains visible."
       ],
       "evidence": [
-        "2026-07-02: Image asset UI is the next active implementation task after PDF export passed."
+        "2026-07-02: Image asset UI is the next active implementation task after PDF export passed.",
+        "2026-07-02: Failing image upload E2E test added to tests/e2e/editor-preview.spec.ts.",
+        "2026-07-02: npm run test:e2e -- tests/e2e/editor-preview.spec.ts failed because Image uploads UI did not exist.",
+        "2026-07-02: Added ImageAssetPanel and connected uploaded assets to DocumentState.",
+        "2026-07-02: npm run test:e2e -- tests/e2e/editor-preview.spec.ts passed with 2 tests.",
+        "2026-07-02: Added PDF export E2E coverage for documents referencing uploaded images.",
+        "2026-07-02: npm run test:e2e -- tests/e2e/pdf-export.spec.ts passed with 2 tests."
       ],
       "notes": "Uploaded files are stored as data URLs in browser state for the MVP."
     },
@@ -160,13 +166,15 @@
       "area": "web",
       "title": "Provide clear web UI errors",
       "user_visible_behavior": "Invalid Markdown input, unsupported assets, and export failures produce clear messages in the web UI.",
-      "status": "not_started",
+      "status": "in_progress",
       "verification": [
         "Trigger an export failure.",
         "Add an unsupported or missing image reference.",
         "Confirm the UI shows actionable messages."
       ],
-      "evidence": [],
+      "evidence": [
+        "2026-07-02: Error handling review is the next active implementation task before final verification."
+      ],
       "notes": "Error style will follow the selected web app design."
     }
   ]

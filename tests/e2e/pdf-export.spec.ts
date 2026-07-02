@@ -29,3 +29,34 @@ test("exports the current document as a PDF", async ({ page }) => {
   const pdf = await PDFDocument.load(bytes);
   expect(pdf.getPageCount()).toBeGreaterThan(0);
 });
+
+test("exports a document that references an uploaded image", async ({ page }) => {
+  await page.goto("/");
+  await page.getByLabel("Image uploads").setInputFiles({
+    name: "diagram.png",
+    mimeType: "image/png",
+    buffer: Buffer.from(
+      "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAFgwJ/lZ5J4QAAAABJRU5ErkJggg==",
+      "base64",
+    ),
+  });
+  await page.getByLabel("Markdown editor").fill("# Image Export\n\n![Diagram](diagram.png)");
+
+  const downloadPromise = page.waitForEvent("download");
+  await page.getByRole("button", { name: "Export PDF" }).click();
+  const download = await downloadPromise;
+  const stream = await download.createReadStream();
+  if (!stream) {
+    throw new Error("Download stream was not available");
+  }
+
+  const bytes = await new Promise<Buffer>((resolve, reject) => {
+    const chunks: Buffer[] = [];
+    stream.on("data", (chunk) => chunks.push(Buffer.from(chunk)));
+    stream.on("end", () => resolve(Buffer.concat(chunks)));
+    stream.on("error", reject);
+  });
+
+  const pdf = await PDFDocument.load(bytes);
+  expect(pdf.getPageCount()).toBeGreaterThan(0);
+});

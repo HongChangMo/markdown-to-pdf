@@ -13,3 +13,20 @@ test("editing markdown updates preview and style controls change layout", async 
   await page.getByLabel("Line height").fill("1.8");
   await expect(page.locator("[data-testid='document-page']")).toHaveCSS("line-height", "32.4px");
 });
+
+test("uploaded image assets can be referenced from markdown", async ({ page }) => {
+  await page.goto("/");
+
+  await page.getByLabel("Image uploads").setInputFiles({
+    name: "diagram.png",
+    mimeType: "image/png",
+    buffer: Buffer.from(
+      "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAFgwJ/lZ5J4QAAAABJRU5ErkJggg==",
+      "base64",
+    ),
+  });
+
+  await page.getByLabel("Markdown editor").fill("![Diagram](diagram.png)");
+  await expect(page.getByRole("img", { name: "Diagram" })).toBeVisible();
+  await expect(page.getByRole("region", { name: "Image assets" }).getByText("diagram.png")).toBeVisible();
+});

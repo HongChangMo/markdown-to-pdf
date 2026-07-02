@@ -72,6 +72,18 @@
   padding: 8px 10px;
 }
 
+.assetPanel {
+  border-top: 1px solid #d7dee8;
+  padding: 14px 16px 16px;
+}
+
+.assetList {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  color: #445160;
+  font-size: 13px;
+}
+
 @media (max-width: 980px) {
   .workspace {
     grid-template-columns: 1fr;
