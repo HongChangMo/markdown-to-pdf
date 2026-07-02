@@ -16,6 +16,10 @@
 - `AGENTS.md` explicitly requires automatic updates to `harness/progress-log.md`,
   `harness/feature-list.json`, and `harness/handoff.md`.
 - The web app MVP is implemented and verified.
+- Preview now preserves editor-style line breaks and shows screen-only PDF page
+  boundary guides.
+- Blank-line spacing is covered before all heading levels, above/below tables,
+  and between a list item and the next heading.
 
 ## Changes This Session
 
@@ -37,6 +41,9 @@
 - Completed editor, preview, and style panel implementation.
 - Started PDF export implementation with a failing E2E test.
 - Completed PDF export, uploaded image assets, clear error handling, and final verification.
+- Added Enter-count-based spacing behavior and preview page boundary guides.
+- Added regression coverage for heading-level spacing, table top/bottom spacing,
+  and list-to-heading spacing.
 
 ## Still Broken Or Unverified
 
@@ -47,10 +54,14 @@
 - Uploaded image assets are implemented and verified in preview and PDF export flow.
 - Korean text is covered by unit and E2E sample documents.
 - Full final verification passed.
+- Latest verification after line-break/page-guide changes passed.
+- Latest line-break verification includes 33 unit tests and 7 E2E tests.
 
 ## Next Best Action
 
-Start the development server and manually review the app in the browser.
+Start the development server and manually review line breaks, blank-line spacing,
+heading spacing, table spacing, page boundary guides, and exported PDF output in
+the browser.
 
 Implementation may require network access for `npx`, `npm install`, and
 Playwright browser installation.

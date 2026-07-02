@@ -45,6 +45,14 @@ The first version should support:
 - Style controls for body font size, line height, page size, page margin, and
   code block font size
 - PDF export from the same document model and style settings used by preview
+- Editor-style line break preservation: Enter-based spacing, `<br>` tags, and
+  Markdown hard breaks should be visible in preview and export
+- Blank-line preservation around Markdown block elements: spacing before all
+  ATX heading levels (`#` through `######`), above/below tables, and between a
+  list item and the next heading should remain visible without breaking Markdown
+  block parsing
+- Page boundary guides in the preview so users can inspect where PDF pages will
+  divide before exporting
 - Clear UI errors for export failures and unsupported assets
 
 ## Non-Goals
@@ -80,6 +88,16 @@ Mobile layout:
 
 The preview should make page boundaries visible enough to judge margins and line
 wrapping before export.
+
+The preview should also preserve editor-entered line breaks in a way that is
+intuitive for PDF editing. A single Enter creates a visible line break. Repeated
+Enters create repeated visible vertical spacing. `<br>`, `<br/>`, `<br />`, and
+Markdown hard breaks are normalized to visible line breaks. Blank lines before
+headings are preserved for every ATX heading level, including `### 코드` and
+`#### **현재 구현된 코드**`. Blank lines above and below tables are preserved
+while keeping table rows parsed as table rows instead of paragraph or list text.
+Blank lines after list items and before the next heading are also preserved
+while keeping the heading outside the list.
 
 ## Core Components
 

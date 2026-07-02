@@ -204,6 +204,36 @@
         "2026-07-02: npm run build passed."
       ],
       "notes": "MVP implementation verification passed. No feature is currently in_progress."
+    },
+    {
+      "id": "line-breaks-and-page-guides",
+      "priority": 10,
+      "area": "preview",
+      "title": "Preserve editor line breaks and show page boundaries",
+      "user_visible_behavior": "The preview and PDF export preserve Enter-based spacing intuitively, and the preview shows page boundary guides so users can inspect pagination before export.",
+      "status": "passing",
+      "verification": [
+        "Enter one or more line breaks in Markdown and confirm the preview preserves visible spacing.",
+        "Use <br> and two-space hard breaks and confirm they render as line breaks.",
+        "Add enough content to exceed one PDF page and confirm the preview shows page break guides.",
+        "Run lint, unit tests, E2E tests, and build."
+      ],
+      "evidence": [
+        "2026-07-02: User requested Enter-count-based spacing and page boundary visibility in PDF preview.",
+        "2026-07-02: Added failing unit tests for Enter preservation, repeated blank lines, br tag normalization, fenced code preservation, and table preservation.",
+        "2026-07-02: Added failing renderer/E2E tests for visible line breaks and page boundary guides.",
+        "2026-07-02: Added regression coverage for repeated blank lines between a paragraph and the next heading, matching the user's reported sample.",
+        "2026-07-02: Added regression coverage for blank lines before all ATX heading levels, including `### 코드` and `#### **현재 구현된 코드**`.",
+        "2026-07-02: Added regression coverage for visible spacing above and below tables while keeping tables parsed as tables.",
+        "2026-07-02: Added regression coverage for visible spacing between a list item and the next heading, matching the reported endpoint deprecation sample.",
+        "2026-07-02: Added preserveMarkdownLineBreaks renderer preprocessing outside fenced code, tables, and structural block lines.",
+        "2026-07-02: Added PDF page boundary guide overlay to preview and hid it in print/PDF export.",
+        "2026-07-02: npm run lint passed.",
+        "2026-07-02: npm run test passed with 4 test files and 33 tests.",
+        "2026-07-02: npm run test:e2e passed with 7 tests.",
+        "2026-07-02: npm run build passed."
+      ],
+      "notes": "Preview and export share DocumentRenderer, so line break behavior is consistent. Page guide overlay is screen-only and hidden in print."
     }
   ]
 }

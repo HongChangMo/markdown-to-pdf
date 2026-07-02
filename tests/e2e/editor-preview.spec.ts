@@ -30,3 +30,18 @@ test("uploaded image assets can be referenced from markdown", async ({ page }) =
   await expect(page.getByRole("img", { name: "Diagram" })).toBeVisible();
   await expect(page.getByRole("region", { name: "Image assets" }).getByText("diagram.png")).toBeVisible();
 });
+
+test("preview preserves editor line breaks and exposes page boundary guides", async ({ page }) => {
+  await page.goto("/");
+
+  await page
+    .getByLabel("Markdown editor")
+    .fill("A\n\n\nB<br>C  \nD\n\n" + Array.from({ length: 80 }, (_, index) => `문단 ${index + 1}`).join("\n\n"));
+
+  await expect(page.locator("[data-testid='document-page'] br")).toHaveCount(165);
+  await expect(page.getByTestId("page-boundary-guides")).toBeVisible();
+  await expect(page.getByTestId("page-boundary-guides")).toHaveCSS(
+    "background-image",
+    /repeating-linear-gradient/,
+  );
+});

@@ -443,3 +443,74 @@ Next best action:
 ```text
 Start `npm run dev` and manually review the editor, preview, style controls, image upload, and exported PDF.
 ```
+
+### 2026-07-02 - Line breaks and preview page guides
+
+Goal:
+
+```text
+Preserve Enter-count-based spacing in preview/export and show page boundary guides in the preview.
+```
+
+Completed:
+
+```text
+Added `src/lib/document/lineBreaks.ts`.
+Updated `DocumentRenderer` to preprocess Markdown before rendering.
+Added screen-only page boundary guide overlay to the preview.
+Added regression coverage for all ATX heading levels, table top/bottom spacing,
+and list-item-to-heading spacing.
+Updated docs and harness files with the new behavior.
+```
+
+Verification run:
+
+```text
+npm run lint
+npm run test
+npm run test:e2e
+npm run build
+```
+
+Evidence recorded:
+
+```text
+`npm run lint` passed.
+`npm run test` passed with 4 test files and 33 tests.
+`npm run test:e2e` passed with 7 tests.
+`npm run build` passed.
+```
+
+Commits:
+
+```text
+Pending commit for line-break and page-guide changes.
+```
+
+Known risks:
+
+```text
+Page boundary guides are visual guides based on configured page height. Complex browser pagination edge cases may still differ from final Chromium PDF pagination.
+```
+
+Regression detail:
+
+```text
+The reported paragraph-to-heading case is covered:
+`현재 구조가 있다.\n\n\n\n### **문제점**`
+The renderer now preserves visible spacing before the heading.
+All ATX heading levels from `#` through `######` are covered, including
+`### 코드` and `#### **현재 구현된 코드**`.
+The reported list-to-heading case is covered:
+`- 기존 \`POST\` endpoint를 계속 유지하는 동안에는 동일 기능의 endpoint가 중복된다.\n\n\n\n### **3차 개선 방향 : 기존 endpoint를 deprecate하고 상태 변경 API를 역할에 맞게 재분류**`
+The renderer now preserves visible spacing after the list while keeping the
+next heading outside the list.
+Table top and bottom spacing is covered while keeping the Markdown table parsed
+as a table.
+```
+
+Next best action:
+
+```text
+Start `npm run dev` and manually review Enter spacing, repeated blank lines, page boundary guides, and exported PDF output.
+```

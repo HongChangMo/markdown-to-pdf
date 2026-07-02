@@ -2,6 +2,7 @@ import ReactMarkdown from "react-markdown";
 import rehypeSanitize from "rehype-sanitize";
 import remarkGfm from "remark-gfm";
 import { resolveMarkdownImageSrc } from "@/lib/document/assets";
+import { preserveMarkdownLineBreaks } from "@/lib/document/lineBreaks";
 import { createDocumentCssVars } from "@/lib/document/style";
 import type { DocumentState } from "@/lib/document/types";
 import styles from "./DocumentRenderer.module.css";
@@ -19,6 +20,11 @@ export function DocumentRenderer({ document, exportReady = false }: DocumentRend
       data-testid="document-page"
       data-export-ready={exportReady ? "true" : undefined}
     >
+      <div
+        className={styles.pageGuides}
+        data-testid="page-boundary-guides"
+        aria-label="PDF page boundary guides"
+      />
       <div className={styles.content}>
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
@@ -37,7 +43,7 @@ export function DocumentRenderer({ document, exportReady = false }: DocumentRend
             },
           }}
         >
-          {document.markdown}
+          {preserveMarkdownLineBreaks(document.markdown)}
         </ReactMarkdown>
       </div>
     </article>

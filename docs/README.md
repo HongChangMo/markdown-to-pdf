@@ -32,6 +32,10 @@ Selected direction:
 - Provide style controls before export.
 - Export the preview layout to PDF.
 - Target development documentation first.
+- Preserve editor line breaks intuitively in preview and export.
+- Preserve blank-line spacing around headings, tables, and list-to-heading
+  transitions without breaking Markdown block parsing.
+- Show page boundary guides in the preview so pagination can be inspected before export.
 
 Selected stack:
 
