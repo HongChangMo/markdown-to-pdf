@@ -29,11 +29,12 @@
 - Recorded Next.js, TypeScript, and Playwright as the selected stack.
 - Marked the web app design as approved for implementation planning.
 - Created `docs/markdown-to-pdf-web-app-implementation-plan.md`.
+- Replaced `harness/feature-tracker.yaml` with `harness/feature-list.json`.
 
 ## Still Broken Or Unverified
 
 - Implementation has not started.
-- No web app scaffold exists yet.
+- Web app scaffold exists and initial lint/test baseline passed.
 - No Markdown parser or PDF export renderer has been installed or verified.
 - Korean font rendering in PDF has not been validated.
 - No tests or verification commands exist yet.

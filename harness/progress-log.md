@@ -281,3 +281,50 @@ Next best action:
 ```text
 Choose execution mode, then start Task 1 in `docs/markdown-to-pdf-web-app-implementation-plan.md`.
 ```
+
+### 2026-07-02 - Feature tracker converted to JSON
+
+Goal:
+
+```text
+Replace the YAML feature tracker with a machine-readable JSON feature list.
+```
+
+Completed:
+
+```text
+Created `harness/feature-list.json`.
+Deleted `harness/feature-tracker.yaml`.
+Updated `AGENTS.md`, `harness/handoff.md`, and implementation plan references.
+Recorded scaffold evidence in `project-scaffold`.
+```
+
+Verification run:
+
+```text
+Read the existing YAML feature tracker and searched references before editing.
+```
+
+Evidence recorded:
+
+```text
+`feature-list.json` contains the same feature list and keeps exactly one `in_progress` item: `project-scaffold`.
+```
+
+Commits:
+
+```text
+Not committed yet. Current implementation work is in progress after the initial scaffold commit.
+```
+
+Known risks:
+
+```text
+Historical progress log entries still mention the old YAML file because they describe past actions.
+```
+
+Next best action:
+
+```text
+Continue Task 2 in `docs/markdown-to-pdf-web-app-implementation-plan.md`.
+```

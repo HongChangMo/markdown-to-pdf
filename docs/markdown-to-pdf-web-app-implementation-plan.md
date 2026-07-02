@@ -1480,7 +1480,7 @@ git commit -m "feat: add uploaded image assets"
 **Files:**
 - Modify: `docs/README.md`
 - Modify: `harness/progress-log.md`
-- Modify: `harness/feature-tracker.yaml`
+- Modify: `harness/feature-list.json`
 - Modify: `harness/handoff.md`
 
 - [ ] **Step 1: Run full verification**
@@ -1544,7 +1544,7 @@ npm run build
 ```
 ```
 
-- [ ] **Step 5: Update `harness/feature-tracker.yaml`**
+- [ ] **Step 5: Update `harness/feature-list.json`**
 
 Mark implemented features as `passing` only if verification succeeded:
 

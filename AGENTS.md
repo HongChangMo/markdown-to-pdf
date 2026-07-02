@@ -7,7 +7,7 @@ This project uses local harness documents to preserve project state across sessi
 Every agent session must start by reading these files in order:
 
 1. `harness/progress-log.md`
-2. `harness/feature-tracker.yaml`
+2. `harness/feature-list.json`
 3. `harness/handoff.md`
 4. Relevant files under `docs/`
 
@@ -19,14 +19,14 @@ Treat `harness/progress-log.md` as the source of truth for the current verified 
 - Keep harness engineering and session continuity documents under `harness/`.
 - Update harness files whenever project state changes.
 - Record verification evidence immediately after running checks.
-- Keep exactly one feature in `in_progress` status in `harness/feature-tracker.yaml`.
+- Keep exactly one feature in `in_progress` status in `harness/feature-list.json`.
 
 ## Session Closeout
 
 Before ending a substantial session, update:
 
 1. `harness/progress-log.md` with a new session record.
-2. `harness/feature-tracker.yaml` with status and evidence changes.
+2. `harness/feature-list.json` with status and evidence changes.
 3. `harness/handoff.md` with the shortest useful next-session context.
 
 ## Current Project Direction
