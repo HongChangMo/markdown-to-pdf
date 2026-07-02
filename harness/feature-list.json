@@ -53,7 +53,7 @@
       "area": "conversion",
       "title": "Convert Markdown to HTML",
       "user_visible_behavior": "Markdown headings, lists, tables, code blocks, images, and links are represented correctly in generated HTML.",
-      "status": "in_progress",
+      "status": "passing",
       "verification": [
         "Convert a sample Markdown file.",
         "Inspect generated HTML structure or snapshot.",
@@ -71,7 +71,8 @@
         "2026-07-02: Failing renderer tests added at tests/unit/document-renderer.test.tsx.",
         "2026-07-02: npm run test -- tests/unit/document-renderer.test.tsx failed because DocumentRenderer did not exist.",
         "2026-07-02: Added shared React Markdown DocumentRenderer and document CSS.",
-        "2026-07-02: npm run test -- tests/unit/document-renderer.test.tsx passed with 2 tests."
+        "2026-07-02: npm run test -- tests/unit/document-renderer.test.tsx passed with 2 tests.",
+        "2026-07-02: npm run test passed with 3 test files and 9 tests after excluding tests/e2e from Vitest."
       ],
       "notes": "React Markdown with GitHub Flavored Markdown support is recommended in the web app design draft. Current work is adding shared document model and style utilities first."
     },
@@ -81,13 +82,16 @@
       "area": "preview",
       "title": "Show live document preview",
       "user_visible_behavior": "As the user edits Markdown, the preview pane updates to show the rendered document with current style settings.",
-      "status": "not_started",
+      "status": "passing",
       "verification": [
         "Type Markdown in the editor.",
         "Confirm headings, lists, tables, code blocks, links, images, and Korean text render in the preview.",
         "Change style controls and confirm the preview updates."
       ],
-      "evidence": [],
+      "evidence": [
+        "2026-07-02: Added MarkdownEditor, PreviewPane, app shell layout, and shared DocumentRenderer preview.",
+        "2026-07-02: npm run test:e2e -- tests/e2e/editor-preview.spec.ts passed."
+      ],
       "notes": "Preview rendering should share the same document CSS used for PDF export."
     },
     {
@@ -96,13 +100,16 @@
       "area": "editor",
       "title": "Adjust PDF-oriented styles before export",
       "user_visible_behavior": "The user can change font size, line height, page margin, page size, and code block styling before generating the PDF.",
-      "status": "not_started",
+      "status": "passing",
       "verification": [
         "Change font size and confirm preview text updates.",
         "Change line height and confirm preview spacing updates.",
         "Change margin or page size and confirm page layout updates."
       ],
-      "evidence": [],
+      "evidence": [
+        "2026-07-02: Added StylePanel with body font size, line height, page size, margin, and code font size controls.",
+        "2026-07-02: E2E verified body font size and line height update preview CSS."
+      ],
       "notes": "This replaces post-generation PDF editing for layout changes."
     },
     {
@@ -111,7 +118,7 @@
       "area": "conversion",
       "title": "Export preview layout to PDF",
       "user_visible_behavior": "Clicking export downloads a PDF that matches the preview layout closely.",
-      "status": "not_started",
+      "status": "in_progress",
       "verification": [
         "Enter a sample Markdown document in the web app.",
         "Apply non-default style settings.",
@@ -119,7 +126,9 @@
         "Confirm the PDF exists and has at least one page.",
         "Confirm Korean text and code block styling are readable."
       ],
-      "evidence": [],
+      "evidence": [
+        "2026-07-02: PDF export is the next active implementation task after editor, preview, and style controls passed."
+      ],
       "notes": "Playwright/Chromium is recommended for export, pending web app design approval."
     },
     {
