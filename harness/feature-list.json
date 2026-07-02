@@ -166,16 +166,40 @@
       "area": "web",
       "title": "Provide clear web UI errors",
       "user_visible_behavior": "Invalid Markdown input, unsupported assets, and export failures produce clear messages in the web UI.",
-      "status": "in_progress",
+      "status": "passing",
       "verification": [
         "Trigger an export failure.",
         "Add an unsupported or missing image reference.",
         "Confirm the UI shows actionable messages."
       ],
       "evidence": [
-        "2026-07-02: Error handling review is the next active implementation task before final verification."
+        "2026-07-02: Error handling review is the next active implementation task before final verification.",
+        "2026-07-02: Failing error handling E2E test added at tests/e2e/error-handling.spec.ts.",
+        "2026-07-02: Missing image message already passed via role=note.",
+        "2026-07-02: Invalid export initially exposed raw Zod error JSON.",
+        "2026-07-02: Export API now maps validation errors to user-facing messages.",
+        "2026-07-02: npm run test:e2e -- tests/e2e/error-handling.spec.ts passed with 2 tests."
       ],
       "notes": "Error style will follow the selected web app design."
+    },
+    {
+      "id": "final-verification",
+      "priority": 9,
+      "area": "quality",
+      "title": "Run final verification and update harness",
+      "user_visible_behavior": "The implemented MVP has passing lint, unit tests, E2E tests, and production build evidence recorded in the harness.",
+      "status": "in_progress",
+      "verification": [
+        "Run npm run lint.",
+        "Run npm run test.",
+        "Run npm run test:e2e.",
+        "Run npm run build.",
+        "Update docs and harness with evidence."
+      ],
+      "evidence": [
+        "2026-07-02: Final verification is the next active task after error handling passed."
+      ],
+      "notes": "Keep this feature in_progress until final verification commands pass and harness files are updated."
     }
   ]
 }

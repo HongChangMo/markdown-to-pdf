@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { ZodError } from "zod";
 import { parseDocumentState } from "@/lib/document/validation";
 import { renderDocumentToPdf } from "@/lib/export/pdf";
 
@@ -20,6 +21,23 @@ function safePdfFilename(title: string): string {
   return `${cleaned || "document"}.pdf`;
 }
 
+function getExportErrorMessage(reason: unknown): string {
+  if (reason instanceof ZodError) {
+    const firstIssue = reason.issues[0];
+    if (firstIssue?.path[0] === "title") {
+      return "Document title is required.";
+    }
+
+    if (firstIssue?.path[0] === "style") {
+      return "Document style settings are invalid.";
+    }
+
+    return "Document input is invalid.";
+  }
+
+  return reason instanceof Error ? reason.message : "PDF export failed";
+}
+
 export async function POST(request: NextRequest) {
   try {
     const document = parseDocumentState(await request.json());
@@ -32,7 +50,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (reason) {
-    const message = reason instanceof Error ? reason.message : "PDF export failed";
+    const message = getExportErrorMessage(reason);
     return NextResponse.json({ message }, { status: 400 });
   }
 }
