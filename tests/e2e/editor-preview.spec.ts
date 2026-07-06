@@ -60,6 +60,30 @@ test("unsupported image uploads show a clear error", async ({ page }) => {
   await expect(page.getByText("Only PNG, JPEG, WebP, and GIF images are supported.")).toBeVisible();
 });
 
+test("image upload input stays within the settings pane content area", async ({ page }) => {
+  await page.goto("/");
+
+  const layout = await page.getByRole("region", { name: "Image assets" }).evaluate((panel) => {
+    const input = panel.querySelector<HTMLInputElement>('input[aria-label="Image uploads"]');
+
+    if (!input) {
+      throw new Error("Image upload input was not found.");
+    }
+
+    const panelRect = panel.getBoundingClientRect();
+    const inputRect = input.getBoundingClientRect();
+    const panelStyle = window.getComputedStyle(panel);
+    const contentRight = panelRect.right - Number.parseFloat(panelStyle.paddingRight);
+
+    return {
+      contentRight,
+      inputRight: inputRect.right,
+    };
+  });
+
+  expect(layout.inputRight).toBeLessThanOrEqual(layout.contentRight);
+});
+
 test("autosaves the document and restores it after reload", async ({ page }) => {
   await page.goto("/");
 
