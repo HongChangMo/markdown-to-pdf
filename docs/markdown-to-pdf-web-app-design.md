@@ -89,6 +89,11 @@ Mobile layout:
 The preview should make page boundaries visible enough to judge margins and line
 wrapping before export.
 
+Preview page boundary guides and exported PDF pagination should use the same
+page box model. The configured document margin is applied as CSS padding on the
+document page. Chromium PDF margins are kept at `0mm` so the margin is not
+applied twice and the preview page guide count can match exported PDF pages.
+
 The preview should also preserve editor-entered line breaks in a way that is
 intuitive for PDF editing. A single Enter creates a visible line break. Repeated
 Enters create repeated visible vertical spacing. `<br>`, `<br/>`, `<br />`, and
@@ -155,8 +160,12 @@ The export flow should be:
 2. API validates the payload.
 3. API opens an internal export route with Playwright.
 4. Export route renders the document using print-oriented CSS.
-5. Playwright calls `page.pdf()` with the requested page size and margins.
+5. Playwright calls `page.pdf()` with the requested page size and `0mm` PDF
+   margins.
 6. API returns the PDF as a download.
+
+The document margin setting belongs to shared document CSS, not to Playwright
+PDF margins. This keeps preview pagination and exported PDF pagination aligned.
 
 This project should run in a Node.js runtime, not a static export. Serverless
 deployment may need extra handling because Playwright/Chromium can be heavy.

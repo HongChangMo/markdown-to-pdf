@@ -36,6 +36,8 @@ Selected direction:
 - Preserve blank-line spacing around headings, tables, and list-to-heading
   transitions without breaking Markdown block parsing.
 - Show page boundary guides in the preview so pagination can be inspected before export.
+- Use the same CSS page box and padding-based document margin model for preview
+  and export pagination.
 
 Selected stack:
 

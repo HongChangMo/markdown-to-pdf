@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { parseDocumentState } from "@/lib/document/validation";
+import { buildPdfContentDisposition } from "@/lib/export/filename";
 import { renderDocumentToPdf } from "@/lib/export/pdf";
 
 export const runtime = "nodejs";
@@ -14,11 +15,6 @@ function getOrigin(request: NextRequest): string {
   }
 
   return request.nextUrl.origin;
-}
-
-function safePdfFilename(title: string): string {
-  const cleaned = title.replace(/[\\/:*?"<>|]/g, "").trim();
-  return `${cleaned || "document"}.pdf`;
 }
 
 function getExportErrorMessage(reason: unknown): string {
@@ -46,7 +42,7 @@ export async function POST(request: NextRequest) {
     return new NextResponse(new Uint8Array(pdf), {
       headers: {
         "content-type": "application/pdf",
-        "content-disposition": `attachment; filename="${safePdfFilename(document.title)}"`,
+        "content-disposition": buildPdfContentDisposition(document.title),
       },
     });
   } catch (reason) {

@@ -21,10 +21,10 @@ export async function renderDocumentToPdf(document: DocumentState, origin: strin
       format: pageSizeToPdfFormat(document.style.pageSize),
       printBackground: true,
       margin: {
-        top: `${document.style.marginMm}mm`,
-        right: `${document.style.marginMm}mm`,
-        bottom: `${document.style.marginMm}mm`,
-        left: `${document.style.marginMm}mm`,
+        top: "0mm",
+        right: "0mm",
+        bottom: "0mm",
+        left: "0mm",
       },
     });
   } finally {
