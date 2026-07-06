@@ -17,7 +17,7 @@ MVP 구현과 검증이 완료된 상태입니다.
 - `react-markdown`과 GitHub Flavored Markdown 기반의 공통 미리보기/내보내기 렌더러
 - 본문 글자 크기, 줄 높이, 페이지 크기, 페이지 여백, 코드 블록 글자 크기 조정
 - Markdown에서 파일명으로 참조할 수 있는 이미지 업로드
-- Node.js Next.js API Route와 Playwright를 이용한 PDF 내보내기
+- Node.js Next.js API Route와 Puppeteer/Chromium을 이용한 PDF 내보내기
 - 잘못된 입력, 누락된 이미지, 내보내기 실패에 대한 명확한 UI 메시지
 - PDF 페이지 나눔을 미리 확인할 수 있는 페이지 경계 가이드와 페이지 수 표시
 - 반복 Enter 공백, hard break, `<br>` 태그, ATX/setext 제목, 표, 목록-제목 전환 구간의 줄바꿈 보존
@@ -29,7 +29,8 @@ MVP 구현과 검증이 완료된 상태입니다.
 - Next.js App Router
 - TypeScript
 - React
-- Playwright: PDF 생성 및 E2E 테스트
+- Puppeteer Core와 `@sparticuz/chromium`: PDF 생성
+- Playwright: E2E 테스트
 - Vitest, Testing Library: 단위 및 컴포넌트 테스트
 - CSS Modules와 문서 전용 CSS 변수
 - Zod: 런타임 문서 검증
@@ -103,7 +104,7 @@ Chromium 실행 파일을 사용합니다. Vercel 프로젝트의 Production 환
 |-- src/
 |   |-- app/               # Next.js App Router 페이지와 API Route
 |   |   |-- api/export/    # PDF 내보내기 API Route
-|   |   |-- export/        # Playwright가 렌더링하는 내부 내보내기 페이지
+|   |   |-- export/        # PDF 생성기가 렌더링하는 내부 내보내기 페이지
 |   |   `-- page.tsx       # 메인 편집기/미리보기 애플리케이션
 |   |-- components/        # 편집기, 미리보기, 렌더러, 스타일, 이미지, 내보내기 UI
 |   |-- lib/
@@ -120,7 +121,7 @@ Chromium 실행 파일을 사용합니다. Vercel 프로젝트의 Production 환
 - `src/app/page.tsx`: 메인 브라우저 애플리케이션 shell
 - `src/components/DocumentRenderer.tsx`: 미리보기와 내보내기가 공유하는 Markdown 렌더러
 - `src/app/api/export/route.ts`: PDF 내보내기 엔드포인트
-- `src/lib/export/pdf.ts`: Playwright PDF 렌더링 helper
+- `src/lib/export/pdf.ts`: Puppeteer PDF 렌더링 helper
 - `src/lib/export/origin.ts`: PDF export origin 결정 helper
 - `src/lib/export/errors.ts`: PDF export 오류 응답 분류 helper
 - `src/lib/document/lineBreaks.ts`: Markdown 줄바꿈 보존 로직

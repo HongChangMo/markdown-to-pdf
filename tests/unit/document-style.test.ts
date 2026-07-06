@@ -22,7 +22,7 @@ describe("document style utilities", () => {
     });
   });
 
-  it("maps page size to Playwright PDF format", () => {
+  it("maps page size to browser PDF format", () => {
     expect(pageSizeToPdfFormat("A4")).toBe("A4");
     expect(pageSizeToPdfFormat("Letter")).toBe("Letter");
   });

@@ -7,7 +7,7 @@ const mocks = vi.hoisted(() => ({
   close: vi.fn(),
   waitForSelector: vi.fn(),
   goto: vi.fn(),
-  addInitScript: vi.fn(),
+  evaluateOnNewDocument: vi.fn(),
   setDefaultTimeout: vi.fn(),
   setDefaultNavigationTimeout: vi.fn(),
   newPage: vi.fn(),
@@ -15,8 +15,8 @@ const mocks = vi.hoisted(() => ({
   executablePath: vi.fn(),
 }));
 
-vi.mock("playwright-core", () => ({
-  chromium: {
+vi.mock("puppeteer-core", () => ({
+  default: {
     launch: mocks.launch,
   },
 }));
@@ -31,13 +31,14 @@ vi.mock("@sparticuz/chromium", () => ({
 describe("PDF render options", () => {
   beforeEach(() => {
     delete process.env.VERCEL;
+    process.env.PUPPETEER_EXECUTABLE_PATH = process.execPath;
     mocks.pdf.mockResolvedValue(Buffer.from("%PDF"));
     mocks.close.mockResolvedValue(undefined);
     mocks.waitForSelector.mockResolvedValue(undefined);
     mocks.goto.mockResolvedValue(undefined);
-    mocks.addInitScript.mockResolvedValue(undefined);
+    mocks.evaluateOnNewDocument.mockResolvedValue(undefined);
     mocks.newPage.mockResolvedValue({
-      addInitScript: mocks.addInitScript,
+      evaluateOnNewDocument: mocks.evaluateOnNewDocument,
       setDefaultTimeout: mocks.setDefaultTimeout,
       setDefaultNavigationTimeout: mocks.setDefaultNavigationTimeout,
       goto: mocks.goto,
@@ -51,14 +52,17 @@ describe("PDF render options", () => {
     mocks.executablePath.mockResolvedValue("/tmp/chromium");
   });
 
-  it("launches local Playwright Chromium outside Vercel", async () => {
+  it("launches local Puppeteer Chromium outside Vercel", async () => {
     await renderDocumentToPdf(DEFAULT_DOCUMENT_STATE, "http://example.test");
 
-    expect(mocks.launch).toHaveBeenCalledWith({ headless: true });
+    expect(mocks.launch).toHaveBeenCalledWith({
+      executablePath: process.execPath,
+      headless: true,
+    });
     expect(mocks.executablePath).not.toHaveBeenCalled();
   });
 
-  it("launches the serverless Chromium binary on Vercel", async () => {
+  it("launches the serverless Puppeteer Chromium binary on Vercel", async () => {
     process.env.VERCEL = "1";
 
     await renderDocumentToPdf(DEFAULT_DOCUMENT_STATE, "http://example.test");
