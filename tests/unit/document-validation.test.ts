@@ -28,4 +28,13 @@ describe("document validation", () => {
   it("keeps http links blocked for image rendering", () => {
     expect(resolveMarkdownImageSrc("https://example.com/a.png", [])).toBe("");
   });
+
+  it("rejects unsupported uploaded image data URL types", () => {
+    expect(() =>
+      parseDocumentState({
+        ...DEFAULT_DOCUMENT_STATE,
+        assets: [{ name: "diagram.svg", dataUrl: "data:image/svg+xml;base64,abc" }],
+      }),
+    ).toThrow();
+  });
 });

@@ -40,6 +40,8 @@ Selected direction:
   and export pagination.
 - Harden PDF export with trusted origin resolution, timeout handling, generic
   internal error messages, and duplicate-click protection.
+- Harden image uploads with supported type and size limits, duplicate filename
+  replacement, delete actions, and clear upload errors.
 
 Selected stack:
 

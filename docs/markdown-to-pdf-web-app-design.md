@@ -42,6 +42,8 @@ The first version should support:
 - Live preview
 - Headings, paragraphs, lists, tables, fenced code blocks, inline code, links,
   local or uploaded images, and Korean text
+- Uploaded image management with PNG, JPEG, WebP, and GIF support, 2 MB per-file
+  limits, duplicate filename replacement, and deletion
 - Style controls for body font size, line height, page size, page margin, and
   code block font size
 - PDF export from the same document model and style settings used by preview
@@ -138,6 +140,12 @@ type DocumentStyle = {
 
 The first version can keep this state in the browser. Persistence can be added
 later.
+
+Uploaded image assets are stored as data URLs in `DocumentState.assets`.
+Supported upload types are PNG, JPEG, WebP, and GIF. Each file is limited to
+2 MB, and the document may contain up to 20 uploaded images. Uploading a file
+with the same normalized filename replaces the previous asset so Markdown
+references continue to resolve predictably.
 
 ## Rendering Strategy
 
