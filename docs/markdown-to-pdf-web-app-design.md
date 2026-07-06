@@ -158,14 +158,18 @@ The export flow should be:
 
 1. Browser sends `DocumentState` to a Next.js API route.
 2. API validates the payload.
-3. API opens an internal export route with Playwright.
-4. Export route renders the document using print-oriented CSS.
-5. Playwright calls `page.pdf()` with the requested page size and `0mm` PDF
+3. API resolves the export origin from `APP_ORIGIN` when configured, otherwise
+   from the request origin. Forwarded host headers are not trusted implicitly.
+4. API opens an internal export route with Playwright.
+5. Export route renders the document using print-oriented CSS.
+6. Playwright calls `page.pdf()` with the requested page size and `0mm` PDF
    margins.
-6. API returns the PDF as a download.
+7. API returns the PDF as a download.
 
 The document margin setting belongs to shared document CSS, not to Playwright
 PDF margins. This keeps preview pagination and exported PDF pagination aligned.
+Playwright navigation, readiness checks, and PDF generation use a bounded export
+timeout so a hung render can fail cleanly.
 
 This project should run in a Node.js runtime, not a static export. Serverless
 deployment may need extra handling because Playwright/Chromium can be heavy.
@@ -193,7 +197,10 @@ Expected first-version errors:
 - Playwright launch/render failure
 
 Errors should be shown in the UI with short actionable messages. Developer
-details can be logged on the server.
+details can be logged on the server. Validation errors should return 400-level
+responses with user-facing messages. Internal render failures should return a
+generic 500-level export failure message instead of exposing browser or server
+details to the client.
 
 ## Testing
 

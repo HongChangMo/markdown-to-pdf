@@ -3,30 +3,60 @@ import { pageSizeToPdfFormat } from "@/lib/document/style";
 import type { DocumentState } from "@/lib/document/types";
 import { EXPORT_STORAGE_KEY } from "./storage";
 
-export async function renderDocumentToPdf(document: DocumentState, origin: string): Promise<Buffer> {
+type RenderDocumentToPdfOptions = {
+  timeoutMs?: number;
+};
+
+const DEFAULT_EXPORT_TIMEOUT_MS = 15_000;
+
+function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+
+  const timeout = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => reject(new Error("PDF export timed out.")), timeoutMs);
+  });
+
+  return Promise.race([promise, timeout]).finally(() => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+  });
+}
+
+export async function renderDocumentToPdf(
+  document: DocumentState,
+  origin: string,
+  options: RenderDocumentToPdfOptions = {},
+): Promise<Buffer> {
+  const timeoutMs = options.timeoutMs ?? DEFAULT_EXPORT_TIMEOUT_MS;
   const browser = await chromium.launch({ headless: true });
 
   try {
     const page = await browser.newPage();
+    page.setDefaultTimeout(timeoutMs);
+    page.setDefaultNavigationTimeout(timeoutMs);
     await page.addInitScript(
       ({ key, value }) => {
         window.localStorage.setItem(key, value);
       },
       { key: EXPORT_STORAGE_KEY, value: JSON.stringify(document) },
     );
-    await page.goto(`${origin}/export`, { waitUntil: "networkidle" });
-    await page.waitForSelector("[data-export-ready='true']", { timeout: 15_000 });
+    await page.goto(`${origin}/export`, { waitUntil: "networkidle", timeout: timeoutMs });
+    await page.waitForSelector("[data-export-ready='true']", { timeout: timeoutMs });
 
-    return await page.pdf({
-      format: pageSizeToPdfFormat(document.style.pageSize),
-      printBackground: true,
-      margin: {
-        top: "0mm",
-        right: "0mm",
-        bottom: "0mm",
-        left: "0mm",
-      },
-    });
+    return await withTimeout(
+      page.pdf({
+        format: pageSizeToPdfFormat(document.style.pageSize),
+        printBackground: true,
+        margin: {
+          top: "0mm",
+          right: "0mm",
+          bottom: "0mm",
+          left: "0mm",
+        },
+      }),
+      timeoutMs,
+    );
   } finally {
     await browser.close();
   }

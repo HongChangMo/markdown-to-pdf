@@ -38,6 +38,8 @@ Selected direction:
 - Show page boundary guides in the preview so pagination can be inspected before export.
 - Use the same CSS page box and padding-based document margin model for preview
   and export pagination.
+- Harden PDF export with trusted origin resolution, timeout handling, generic
+  internal error messages, and duplicate-click protection.
 
 Selected stack:
 
