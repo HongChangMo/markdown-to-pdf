@@ -13,11 +13,47 @@
   border-bottom: 1px solid #d7dee8;
 }
 
+.toolbar button,
+.importButton {
+  border: 1px solid #c8d1dc;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #1f2933;
+  padding: 7px 10px;
+  cursor: pointer;
+}
+
+.toolbar button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
 .titleInput {
   width: min(360px, 45vw);
   border: 1px solid #c8d1dc;
   border-radius: 6px;
   padding: 8px 10px;
+}
+
+.documentActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.importButton {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+}
+
+.importButton input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
 }
 
 .workspace {
@@ -54,6 +90,7 @@
 }
 
 .settings {
+  min-width: 0;
   padding: 16px;
   display: grid;
   align-content: start;
@@ -61,18 +98,23 @@
 }
 
 .field {
+  min-width: 0;
   display: grid;
   gap: 6px;
 }
 
 .field input,
 .field select {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   border: 1px solid #c8d1dc;
   border-radius: 6px;
   padding: 8px 10px;
 }
 
 .assetPanel {
+  min-width: 0;
   border-top: 1px solid #d7dee8;
   padding: 14px 16px 16px;
 }
@@ -88,10 +130,16 @@
 }
 
 .assetList li {
+  min-width: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+}
+
+.assetList span {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .assetError {
