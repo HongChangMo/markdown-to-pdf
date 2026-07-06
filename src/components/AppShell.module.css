@@ -89,6 +89,21 @@
   background: #f4f7fa;
 }
 
+.previewStatus {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  width: fit-content;
+  margin: 0 0 12px auto;
+  border: 1px solid #c8d1dc;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #445160;
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
 .settings {
   min-width: 0;
   padding: 16px;

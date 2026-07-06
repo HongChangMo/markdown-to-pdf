@@ -40,8 +40,8 @@ The first version should support:
 
 - Markdown text editing
 - Live preview
-- Headings, paragraphs, lists, tables, fenced code blocks, inline code, links,
-  local or uploaded images, and Korean text
+- ATX and setext headings, paragraphs, nested lists, blockquotes, tables,
+  fenced code blocks, inline code, links, local or uploaded images, and Korean text
 - Uploaded image management with PNG, JPEG, WebP, and GIF support, 2 MB per-file
   limits, duplicate filename replacement, and deletion
 - Style controls for body font size, line height, page size, page margin, and
@@ -55,8 +55,11 @@ The first version should support:
   block parsing
 - Page boundary guides in the preview so users can inspect where PDF pages will
   divide before exporting
+- A preview page count derived from the same page box used by the guides
 - Clear UI errors for export failures and unsupported assets
 - Browser-local autosave, full document JSON import/export, and reset confirmation
+- Raw HTML blocks are removed before rendering instead of being passed through
+  as live DOM
 
 ## Non-Goals
 
@@ -90,7 +93,8 @@ Mobile layout:
 - Keep export available from the top toolbar.
 
 The preview should make page boundaries visible enough to judge margins and line
-wrapping before export.
+wrapping before export. It should also show the current page count so users can
+quickly see when edits change pagination.
 
 Preview page boundary guides and exported PDF pagination should use the same
 page box model. The configured document margin is applied as CSS padding on the
@@ -106,6 +110,10 @@ headings are preserved for every ATX heading level, including `### 코드` and
 while keeping table rows parsed as table rows instead of paragraph or list text.
 Blank lines after list items and before the next heading are also preserved
 while keeping the heading outside the list.
+Setext heading syntax (`Title` followed by `===` or `---`) must remain intact
+during line-break preprocessing. Blockquotes should be visibly distinct from
+plain paragraphs. Raw HTML block lines are removed before Markdown rendering so
+the document keeps a safe, Markdown-first rendering policy.
 
 ## Core Components
 

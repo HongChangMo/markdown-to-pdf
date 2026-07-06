@@ -36,6 +36,9 @@ Selected direction:
 - Preserve blank-line spacing around headings, tables, and list-to-heading
   transitions without breaking Markdown block parsing.
 - Show page boundary guides in the preview so pagination can be inspected before export.
+- Show a preview page count next to the page boundary guides.
+- Preserve setext headings and document nested lists and raw HTML safety policy.
+- Style blockquotes so quoted text is visually distinct in preview and export.
 - Use the same CSS page box and padding-based document margin model for preview
   and export pagination.
 - Harden PDF export with trusted origin resolution, timeout handling, generic

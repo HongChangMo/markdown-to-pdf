@@ -29,6 +29,19 @@ describe("preserveMarkdownLineBreaks", () => {
     );
   });
 
+  it.each([
+    ["제목", "==="],
+    ["부제목", "---"],
+  ])("does not insert hard breaks inside setext heading syntax: %s", (title, underline) => {
+    expect(preserveMarkdownLineBreaks(`${title}\n${underline}`)).toBe(`${title}\n${underline}`);
+  });
+
+  it("preserves blank space before setext headings", () => {
+    expect(preserveMarkdownLineBreaks("본문\n\n\n제목\n===")).toBe(
+      "본문  \n&nbsp;  \n&nbsp;  \n제목\n===",
+    );
+  });
+
   it("preserves blank space above and below tables", () => {
     const markdown = "표 상단 문장\n\n\n| A | B |\n| - | - |\n| 1 | 2 |\n\n\n표 하단 문장";
 
@@ -48,6 +61,12 @@ describe("preserveMarkdownLineBreaks", () => {
 
   it("normalizes br tags into markdown hard breaks", () => {
     expect(preserveMarkdownLineBreaks("A<br>B<br />C<br/>D")).toBe("A  \nB  \nC  \nD");
+  });
+
+  it("drops raw HTML block lines without dropping following Markdown", () => {
+    expect(
+      preserveMarkdownLineBreaks("<script>alert('x')</script>\n\n<div>raw div</div>\n\n**안전한 Markdown**"),
+    ).toBe("\n\n\n\n**안전한 Markdown**");
   });
 
   it("does not rewrite fenced code blocks", () => {
