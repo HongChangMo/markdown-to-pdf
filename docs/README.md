@@ -41,13 +41,16 @@ Selected direction:
 - Style blockquotes so quoted text is visually distinct in preview and export.
 - Use the same CSS page box and padding-based document margin model for preview
   and export pagination.
+- Bundle Noto Sans KR document fonts and wait for browser font readiness before
+  PDF printing so Korean glyphs render in Vercel serverless Chromium exports.
 - Harden PDF export with trusted origin resolution, timeout handling, generic
   internal error messages, and duplicate-click protection.
 - Harden image uploads with supported type and size limits, duplicate filename
   replacement, delete actions, and clear upload errors.
 - Autosave the current document in browser localStorage and support full
   document JSON import/export plus reset confirmation.
-- Run PDF export on Vercel with serverless Chromium and explicit `APP_ORIGIN`.
+- Run PDF export on Vercel with serverless Chromium, bundled Korean document
+  fonts, and explicit `APP_ORIGIN`.
 
 Selected stack:
 

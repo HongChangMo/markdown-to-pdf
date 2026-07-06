@@ -1,3 +1,19 @@
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/NotoSansKR-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/NotoSansKR-Bold.ttf') format('truetype');
+}
+
 .page {
   position: relative;
   width: var(--doc-page-width);
@@ -6,7 +22,7 @@
   padding: var(--doc-margin);
   color: #202124;
   background: #ffffff;
-  font-family: Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  font-family: "Noto Sans KR", Arial, "Apple SD Gothic Neo", sans-serif;
   font-size: var(--doc-font-size);
   line-height: var(--doc-line-height);
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.14);
