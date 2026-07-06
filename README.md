@@ -67,6 +67,10 @@ npx playwright install chromium
 APP_ORIGIN=https://example.com
 ```
 
+Vercel 배포에서는 PDF 내보내기 API가 `@sparticuz/chromium`의 서버리스
+Chromium 실행 파일을 사용합니다. Vercel 프로젝트의 Production 환경변수에
+실제 배포 URL을 `APP_ORIGIN`으로 설정한 뒤 다시 배포해야 합니다.
+
 ## 사용 방법
 
 1. 왼쪽 패널에서 Markdown을 작성하거나 붙여 넣습니다.

@@ -47,6 +47,7 @@ Selected direction:
   replacement, delete actions, and clear upload errors.
 - Autosave the current document in browser localStorage and support full
   document JSON import/export plus reset confirmation.
+- Run PDF export on Vercel with serverless Chromium and explicit `APP_ORIGIN`.
 
 Selected stack:
 

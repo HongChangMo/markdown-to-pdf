@@ -179,7 +179,9 @@ The export flow should be:
 2. API validates the payload.
 3. API resolves the export origin from `APP_ORIGIN` when configured, otherwise
    from the request origin. Forwarded host headers are not trusted implicitly.
-4. API opens an internal export route with Playwright.
+4. API opens an internal export route with Playwright. Local development uses
+   the local Playwright Chromium launcher; Vercel uses `@sparticuz/chromium`
+   with `playwright-core` so the serverless function has an executable browser.
 5. Export route renders the document using print-oriented CSS.
 6. Playwright calls `page.pdf()` with the requested page size and `0mm` PDF
    margins.
@@ -188,10 +190,12 @@ The export flow should be:
 The document margin setting belongs to shared document CSS, not to Playwright
 PDF margins. This keeps preview pagination and exported PDF pagination aligned.
 Playwright navigation, readiness checks, and PDF generation use a bounded export
-timeout so a hung render can fail cleanly.
+timeout so a hung render can fail cleanly. The export API declares a Vercel
+function duration budget so cold Chromium extraction has room to complete.
 
 This project should run in a Node.js runtime, not a static export. Serverless
-deployment may need extra handling because Playwright/Chromium can be heavy.
+deployment needs the traced `@sparticuz/chromium` binary files and
+`playwright-core` metadata included in the function bundle.
 
 ## Style Controls
 
