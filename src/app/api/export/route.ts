@@ -6,6 +6,7 @@ import { resolveExportOrigin } from "@/lib/export/origin";
 import { renderDocumentToPdf } from "@/lib/export/pdf";
 
 export const runtime = "nodejs";
+export const maxDuration = 60;
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,6 +21,10 @@ export async function POST(request: NextRequest) {
     });
   } catch (reason) {
     const { message, status } = createExportErrorResponse(reason);
+    if (status >= 500) {
+      console.error("Failed to export PDF.", reason);
+    }
+
     return NextResponse.json({ message }, { status });
   }
 }

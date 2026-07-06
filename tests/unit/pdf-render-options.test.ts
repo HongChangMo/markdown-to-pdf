@@ -12,16 +12,25 @@ const mocks = vi.hoisted(() => ({
   setDefaultNavigationTimeout: vi.fn(),
   newPage: vi.fn(),
   launch: vi.fn(),
+  executablePath: vi.fn(),
 }));
 
-vi.mock("playwright", () => ({
+vi.mock("playwright-core", () => ({
   chromium: {
     launch: mocks.launch,
   },
 }));
 
+vi.mock("@sparticuz/chromium", () => ({
+  default: {
+    args: ["--serverless-chromium"],
+    executablePath: mocks.executablePath,
+  },
+}));
+
 describe("PDF render options", () => {
   beforeEach(() => {
+    delete process.env.VERCEL;
     mocks.pdf.mockResolvedValue(Buffer.from("%PDF"));
     mocks.close.mockResolvedValue(undefined);
     mocks.waitForSelector.mockResolvedValue(undefined);
@@ -38,6 +47,27 @@ describe("PDF render options", () => {
     mocks.launch.mockResolvedValue({
       newPage: mocks.newPage,
       close: mocks.close,
+    });
+    mocks.executablePath.mockResolvedValue("/tmp/chromium");
+  });
+
+  it("launches local Playwright Chromium outside Vercel", async () => {
+    await renderDocumentToPdf(DEFAULT_DOCUMENT_STATE, "http://example.test");
+
+    expect(mocks.launch).toHaveBeenCalledWith({ headless: true });
+    expect(mocks.executablePath).not.toHaveBeenCalled();
+  });
+
+  it("launches the serverless Chromium binary on Vercel", async () => {
+    process.env.VERCEL = "1";
+
+    await renderDocumentToPdf(DEFAULT_DOCUMENT_STATE, "http://example.test");
+
+    expect(mocks.executablePath).toHaveBeenCalled();
+    expect(mocks.launch).toHaveBeenCalledWith({
+      args: ["--serverless-chromium"],
+      executablePath: "/tmp/chromium",
+      headless: true,
     });
   });
 

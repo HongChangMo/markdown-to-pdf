@@ -1,4 +1,6 @@
-import { chromium } from "playwright";
+import serverlessChromium from "@sparticuz/chromium";
+import { chromium } from "playwright-core";
+import type { LaunchOptions } from "playwright-core";
 import { pageSizeToPdfFormat } from "@/lib/document/style";
 import type { DocumentState } from "@/lib/document/types";
 import { EXPORT_STORAGE_KEY } from "./storage";
@@ -7,7 +9,19 @@ type RenderDocumentToPdfOptions = {
   timeoutMs?: number;
 };
 
-const DEFAULT_EXPORT_TIMEOUT_MS = 15_000;
+const DEFAULT_EXPORT_TIMEOUT_MS = 45_000;
+
+async function createChromiumLaunchOptions(): Promise<LaunchOptions> {
+  if (process.env.VERCEL) {
+    return {
+      args: serverlessChromium.args,
+      executablePath: await serverlessChromium.executablePath(),
+      headless: true,
+    };
+  }
+
+  return { headless: true };
+}
 
 function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
   let timer: ReturnType<typeof setTimeout> | undefined;
@@ -29,7 +43,7 @@ export async function renderDocumentToPdf(
   options: RenderDocumentToPdfOptions = {},
 ): Promise<Buffer> {
   const timeoutMs = options.timeoutMs ?? DEFAULT_EXPORT_TIMEOUT_MS;
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch(await createChromiumLaunchOptions());
 
   try {
     const page = await browser.newPage();
