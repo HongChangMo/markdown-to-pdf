@@ -79,9 +79,36 @@
 
 .assetList {
   margin: 8px 0 0;
-  padding-left: 18px;
+  padding: 0;
   color: #445160;
   font-size: 13px;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.assetList li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.assetError {
+  margin: 0;
+  color: #b42318;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.assetRemoveButton {
+  border: 1px solid #c8d1dc;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #445160;
+  padding: 4px 8px;
+  font-size: 12px;
+  cursor: pointer;
 }
 
 @media (max-width: 980px) {

@@ -31,6 +31,35 @@ test("uploaded image assets can be referenced from markdown", async ({ page }) =
   await expect(page.getByRole("region", { name: "Image assets" }).getByText("diagram.png")).toBeVisible();
 });
 
+test("uploaded image assets can be removed", async ({ page }) => {
+  await page.goto("/");
+
+  await page.getByLabel("Image uploads").setInputFiles({
+    name: "diagram.png",
+    mimeType: "image/png",
+    buffer: Buffer.from(
+      "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAFgwJ/lZ5J4QAAAABJRU5ErkJggg==",
+      "base64",
+    ),
+  });
+
+  await expect(page.getByRole("region", { name: "Image assets" }).getByText("diagram.png")).toBeVisible();
+  await page.getByRole("button", { name: "Remove diagram.png" }).click();
+  await expect(page.getByRole("region", { name: "Image assets" }).getByText("diagram.png")).toBeHidden();
+});
+
+test("unsupported image uploads show a clear error", async ({ page }) => {
+  await page.goto("/");
+
+  await page.getByLabel("Image uploads").setInputFiles({
+    name: "diagram.svg",
+    mimeType: "image/svg+xml",
+    buffer: Buffer.from("<svg />"),
+  });
+
+  await expect(page.getByText("Only PNG, JPEG, WebP, and GIF images are supported.")).toBeVisible();
+});
+
 test("preview preserves editor line breaks and exposes page boundary guides", async ({ page }) => {
   await page.goto("/");
 
