@@ -48,8 +48,23 @@
 .content ul,
 .content ol,
 .content table,
-.content pre {
+.content pre,
+.content blockquote {
   margin: 0.8em 0;
+}
+
+.content blockquote {
+  border-left: 4px solid #94a3b8;
+  padding-left: 16px;
+  color: #475569;
+}
+
+.content blockquote > :first-child {
+  margin-top: 0;
+}
+
+.content blockquote > :last-child {
+  margin-bottom: 0;
 }
 
 .content table {

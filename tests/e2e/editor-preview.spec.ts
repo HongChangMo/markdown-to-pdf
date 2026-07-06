@@ -119,6 +119,28 @@ test("reset document requires confirmation", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "개발 문서" })).toBeVisible();
 });
 
+test("renders blockquotes with visible quote styling", async ({ page }) => {
+  await page.goto("/");
+
+  await page.getByLabel("Markdown editor").fill("> 중요한 인용문\n>\n> - 근거 A");
+
+  const blockquote = page.locator("[data-testid='document-page'] blockquote");
+  await expect(blockquote).toBeVisible();
+  await expect(blockquote).toHaveCSS("border-left-width", "4px");
+  await expect(blockquote).toHaveCSS("padding-left", "16px");
+  await expect(blockquote.getByText("중요한 인용문")).toBeVisible();
+});
+
+test("shows preview page count for long documents", async ({ page }) => {
+  await page.goto("/");
+
+  await page
+    .getByLabel("Markdown editor")
+    .fill(Array.from({ length: 130 }, (_, index) => `문단 ${index + 1}`).join("\n\n"));
+
+  await expect(page.getByTestId("preview-page-count")).toHaveText(/Pages: [2-9]\d*/);
+});
+
 test("preview preserves editor line breaks and exposes page boundary guides", async ({ page }) => {
   await page.goto("/");
 

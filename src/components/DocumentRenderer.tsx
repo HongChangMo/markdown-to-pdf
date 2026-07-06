@@ -1,6 +1,7 @@
 import ReactMarkdown from "react-markdown";
 import rehypeSanitize from "rehype-sanitize";
 import remarkGfm from "remark-gfm";
+import type { Ref } from "react";
 import { resolveMarkdownImageSrc } from "@/lib/document/assets";
 import { preserveMarkdownLineBreaks } from "@/lib/document/lineBreaks";
 import { createDocumentCssVars } from "@/lib/document/style";
@@ -10,11 +11,13 @@ import styles from "./DocumentRenderer.module.css";
 type DocumentRendererProps = {
   document: DocumentState;
   exportReady?: boolean;
+  pageRef?: Ref<HTMLElement>;
 };
 
-export function DocumentRenderer({ document, exportReady = false }: DocumentRendererProps) {
+export function DocumentRenderer({ document, exportReady = false, pageRef }: DocumentRendererProps) {
   return (
     <article
+      ref={pageRef}
       className={styles.page}
       style={createDocumentCssVars(document.style)}
       data-testid="document-page"

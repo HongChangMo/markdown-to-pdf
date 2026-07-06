@@ -3,9 +3,9 @@
 Markdown을 작성하고, 렌더링 결과를 실시간으로 확인한 뒤, PDF에 맞는
 스타일을 조정해서 최종 문서를 PDF로 내보내는 Next.js 웹 애플리케이션입니다.
 
-첫 번째 지원 문서 유형은 개발 문서입니다. 현재 렌더러는 제목, 목록, 표,
-코드 블록, 링크, 업로드 이미지, 한국어 텍스트, 에디터에서 입력한 줄바꿈을
-검증 대상으로 삼고 있습니다.
+첫 번째 지원 문서 유형은 개발 문서입니다. 현재 렌더러는 제목, 중첩 목록,
+인용문, 표, 코드 블록, 링크, 업로드 이미지, 한국어 텍스트, 에디터에서
+입력한 줄바꿈을 검증 대상으로 삼고 있습니다.
 
 ## 현재 상태
 
@@ -19,8 +19,10 @@ MVP 구현과 검증이 완료된 상태입니다.
 - Markdown에서 파일명으로 참조할 수 있는 이미지 업로드
 - Node.js Next.js API Route와 Playwright를 이용한 PDF 내보내기
 - 잘못된 입력, 누락된 이미지, 내보내기 실패에 대한 명확한 UI 메시지
-- PDF 페이지 나눔을 미리 확인할 수 있는 페이지 경계 가이드
-- 반복 Enter 공백, hard break, `<br>` 태그, 제목, 표, 목록-제목 전환 구간의 줄바꿈 보존
+- PDF 페이지 나눔을 미리 확인할 수 있는 페이지 경계 가이드와 페이지 수 표시
+- 반복 Enter 공백, hard break, `<br>` 태그, ATX/setext 제목, 표, 목록-제목 전환 구간의 줄바꿈 보존
+- 중첩 목록과 인용문 표시 보강
+- raw HTML 블록 제거 정책으로 문서 렌더링 안전성 유지
 
 ## 기술 스택
 
@@ -93,7 +95,6 @@ APP_ORIGIN=https://example.com
 ```text
 .
 |-- docs/                  # 제품 설계와 구현 계획 문서
-|-- harness/               # 세션 상태, 기능 목록, 다음 작업 인계 기록
 |-- public/                # Next.js scaffold 정적 자산
 |-- src/
 |   |-- app/               # Next.js App Router 페이지와 API Route
@@ -119,7 +120,6 @@ APP_ORIGIN=https://example.com
 - `src/lib/export/origin.ts`: PDF export origin 결정 helper
 - `src/lib/export/errors.ts`: PDF export 오류 응답 분류 helper
 - `src/lib/document/lineBreaks.ts`: Markdown 줄바꿈 보존 로직
-- `harness/progress-log.md`: 검증된 프로젝트 상태의 기준 문서
 
 ## 스크립트
 
@@ -142,9 +142,6 @@ npm run test
 npm run test:e2e
 npm run build
 ```
-
-최신 전체 검증 증거는 `harness/progress-log.md`와
-`harness/feature-list.json`에 기록합니다.
 
 ## 문서
 

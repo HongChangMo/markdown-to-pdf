@@ -47,6 +47,40 @@ describe("DocumentRenderer", () => {
     expect(page).toHaveTextContent("D");
   });
 
+  it("renders nested unordered and ordered lists as nested list elements", () => {
+    render(
+      <DocumentRenderer
+        document={{
+          ...DEFAULT_DOCUMENT_STATE,
+          markdown: "- 상위 항목\n  - 하위 항목\n    1. 세부 순서",
+        }}
+      />,
+    );
+
+    const page = screen.getByTestId("document-page");
+    expect(page.querySelector("ul ul")).not.toBeNull();
+    expect(page.querySelector("ul ol")).not.toBeNull();
+    expect(screen.getByText("세부 순서")).toBeInTheDocument();
+  });
+
+  it("drops raw HTML instead of rendering it as DOM", () => {
+    render(
+      <DocumentRenderer
+        document={{
+          ...DEFAULT_DOCUMENT_STATE,
+          markdown: "<script>alert('x')</script>\n\n<div>raw div</div>\n\n**안전한 Markdown**",
+        }}
+      />,
+    );
+
+    const page = screen.getByTestId("document-page");
+    expect(page.querySelector("script")).toBeNull();
+    expect(page.querySelector("div.raw")).toBeNull();
+    expect(page.innerHTML).not.toContain("<div>raw div</div>");
+    expect(page).not.toHaveTextContent("raw div");
+    expect(screen.getByText("안전한 Markdown")).toBeInTheDocument();
+  });
+
   it("keeps visible spacing before a heading after repeated blank lines", () => {
     render(
       <DocumentRenderer
@@ -82,6 +116,22 @@ describe("DocumentRenderer", () => {
     const page = screen.getByTestId("document-page");
     expect(screen.getByRole("heading", { level })).toBeInTheDocument();
     expect(page.querySelectorAll("br")).toHaveLength(2);
+  });
+
+  it.each([
+    [1, "문서 제목\n==="],
+    [2, "문서 부제목\n---"],
+  ])("renders setext heading level %i", (level, markdown) => {
+    render(
+      <DocumentRenderer
+        document={{
+          ...DEFAULT_DOCUMENT_STATE,
+          markdown,
+        }}
+      />,
+    );
+
+    expect(screen.getByRole("heading", { level })).toBeInTheDocument();
   });
 
   it("keeps visible spacing above and below a table", () => {
