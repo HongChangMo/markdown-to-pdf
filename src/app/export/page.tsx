@@ -9,6 +9,7 @@ import { EXPORT_STORAGE_KEY } from "@/lib/export/storage";
 export default function ExportPage() {
   const [document, setDocument] = useState<DocumentState | null>(null);
   const [error, setError] = useState("");
+  const [fontReadyDocument, setFontReadyDocument] = useState<DocumentState | null>(null);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -23,6 +24,27 @@ export default function ExportPage() {
     return () => window.clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (!document) {
+      return;
+    }
+
+    let cancelled = false;
+
+    const ready = window.document.fonts?.ready ?? Promise.resolve();
+    ready
+      .catch(() => undefined)
+      .then(() => {
+        if (!cancelled) {
+          setFontReadyDocument(document);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [document]);
+
   if (error) {
     return <main data-export-error="true">{error}</main>;
   }
@@ -31,5 +53,5 @@ export default function ExportPage() {
     return <main>Preparing export</main>;
   }
 
-  return <DocumentRenderer document={document} exportReady />;
+  return <DocumentRenderer document={document} exportReady={fontReadyDocument === document} />;
 }

@@ -18,6 +18,7 @@ MVP 구현과 검증이 완료된 상태입니다.
 - 본문 글자 크기, 줄 높이, 페이지 크기, 페이지 여백, 코드 블록 글자 크기 조정
 - Markdown에서 파일명으로 참조할 수 있는 이미지 업로드
 - Node.js Next.js API Route와 Puppeteer/Chromium을 이용한 PDF 내보내기
+- Vercel 서버리스 Chromium에서도 한글이 보이도록 번들된 Noto Sans KR 문서 폰트
 - 잘못된 입력, 누락된 이미지, 내보내기 실패에 대한 명확한 UI 메시지
 - PDF 페이지 나눔을 미리 확인할 수 있는 페이지 경계 가이드와 페이지 수 표시
 - 반복 Enter 공백, hard break, `<br>` 태그, ATX/setext 제목, 표, 목록-제목 전환 구간의 줄바꿈 보존
@@ -71,6 +72,8 @@ APP_ORIGIN=https://example.com
 Vercel 배포에서는 PDF 내보내기 API가 `@sparticuz/chromium`의 서버리스
 Chromium 실행 파일을 사용합니다. Vercel 프로젝트의 Production 환경변수에
 실제 배포 URL을 `APP_ORIGIN`으로 설정한 뒤 다시 배포해야 합니다.
+PDF 출력용 한글 폰트는 `public/fonts`의 Noto Sans KR 파일을 사용하므로,
+서버리스 환경에 시스템 한글 폰트가 없어도 한글 글리프가 렌더링됩니다.
 
 ## 사용 방법
 
@@ -100,7 +103,7 @@ Chromium 실행 파일을 사용합니다. Vercel 프로젝트의 Production 환
 ```text
 .
 |-- docs/                  # 제품 설계와 구현 계획 문서
-|-- public/                # Next.js scaffold 정적 자산
+|-- public/                # 정적 자산과 PDF용 폰트
 |-- src/
 |   |-- app/               # Next.js App Router 페이지와 API Route
 |   |   |-- api/export/    # PDF 내보내기 API Route

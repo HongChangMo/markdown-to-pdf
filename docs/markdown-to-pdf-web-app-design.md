@@ -49,6 +49,7 @@ The first version should support:
 - PDF export from the same document model and style settings used by preview
 - Editor-style line break preservation: Enter-based spacing, `<br>` tags, and
   Markdown hard breaks should be visible in preview and export
+- Bundled Noto Sans KR document fonts for Korean text in serverless PDF export
 - Blank-line preservation around Markdown block elements: spacing before all
   ATX heading levels (`#` through `######`), above/below tables, and between a
   list item and the next heading should remain visible without breaking Markdown
@@ -182,20 +183,28 @@ The export flow should be:
 4. API opens an internal export route with Puppeteer. Local development uses
    Puppeteer Core with the locally installed Chromium; Vercel uses
    `@sparticuz/chromium` so the serverless function has an executable browser.
-5. Export route renders the document using print-oriented CSS.
-6. Puppeteer calls `page.pdf()` with the requested page size and `0mm` PDF
+5. Export route renders the document using print-oriented CSS and bundled
+   Noto Sans KR fonts.
+6. The export route marks itself ready only after browser font loading
+   completes.
+7. Puppeteer calls `page.pdf()` with the requested page size and `0mm` PDF
    margins.
-7. API returns the PDF as a download.
+8. API returns the PDF as a download.
 
 The document margin setting belongs to shared document CSS, not to browser PDF
 PDF margins. This keeps preview pagination and exported PDF pagination aligned.
 Puppeteer navigation, readiness checks, and PDF generation use a bounded export
 timeout so a hung render can fail cleanly. The export API declares a Vercel
 function duration budget so cold Chromium extraction has room to complete.
+Because the Vercel serverless Chromium image does not provide Korean-capable
+system fonts, document CSS self-hosts Noto Sans KR and gives it first priority
+for preview/export text. Export readiness waits for `document.fonts.ready` so
+Puppeteer does not print before the font is available.
 
 This project should run in a Node.js runtime, not a static export. Serverless
 deployment needs the traced `@sparticuz/chromium` binary files and
-Puppeteer runtime files included in the function bundle.
+Puppeteer runtime files included in the function bundle. The Noto Sans KR font
+files are served from `public/fonts`.
 
 ## Style Controls
 
