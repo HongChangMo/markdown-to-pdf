@@ -60,6 +60,41 @@ test("unsupported image uploads show a clear error", async ({ page }) => {
   await expect(page.getByText("Only PNG, JPEG, WebP, and GIF images are supported.")).toBeVisible();
 });
 
+test("autosaves the document and restores it after reload", async ({ page }) => {
+  await page.goto("/");
+
+  await page.getByLabel("Document title").fill("Autosaved Document");
+  await page.getByLabel("Markdown editor").fill("# 자동 저장\n\n본문입니다.");
+  await expect(page.getByRole("heading", { name: "자동 저장" })).toBeVisible();
+
+  await page.reload();
+
+  await expect(page.getByLabel("Document title")).toHaveValue("Autosaved Document");
+  await expect(page.getByLabel("Markdown editor")).toHaveValue("# 자동 저장\n\n본문입니다.");
+  await expect(page.getByRole("heading", { name: "자동 저장" })).toBeVisible();
+});
+
+test("reset document requires confirmation", async ({ page }) => {
+  await page.goto("/");
+
+  await page.getByLabel("Markdown editor").fill("# 임시 문서");
+  await expect(page.getByRole("heading", { name: "임시 문서" })).toBeVisible();
+
+  page.once("dialog", async (dialog) => {
+    expect(dialog.message()).toBe("Reset the document and clear the local draft?");
+    await dialog.dismiss();
+  });
+  await page.getByRole("button", { name: "Reset document" }).click();
+  await expect(page.getByRole("heading", { name: "임시 문서" })).toBeVisible();
+
+  page.once("dialog", async (dialog) => {
+    expect(dialog.message()).toBe("Reset the document and clear the local draft?");
+    await dialog.accept();
+  });
+  await page.getByRole("button", { name: "Reset document" }).click();
+  await expect(page.getByRole("heading", { name: "개발 문서" })).toBeVisible();
+});
+
 test("preview preserves editor line breaks and exposes page boundary guides", async ({ page }) => {
   await page.goto("/");
 

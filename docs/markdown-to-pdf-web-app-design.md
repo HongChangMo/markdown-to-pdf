@@ -56,6 +56,7 @@ The first version should support:
 - Page boundary guides in the preview so users can inspect where PDF pages will
   divide before exporting
 - Clear UI errors for export failures and unsupported assets
+- Browser-local autosave, full document JSON import/export, and reset confirmation
 
 ## Non-Goals
 
@@ -138,8 +139,10 @@ type DocumentStyle = {
 };
 ```
 
-The first version can keep this state in the browser. Persistence can be added
-later.
+The first version stores the current document in browser `localStorage`.
+Persistence is local to the current browser profile. Full document JSON
+import/export lets users move a document state between sessions or machines
+without requiring cloud storage.
 
 Uploaded image assets are stored as data URLs in `DocumentState.assets`.
 Supported upload types are PNG, JPEG, WebP, and GIF. Each file is limited to
