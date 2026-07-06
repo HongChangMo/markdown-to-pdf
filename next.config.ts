@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     "/api/export": [
       "./node_modules/@sparticuz/chromium/bin/**/*",
-      "./node_modules/playwright-core/browsers.json",
+      "./node_modules/puppeteer-core/lib/**/*",
     ],
   },
 };

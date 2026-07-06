@@ -16,7 +16,7 @@ The first version targets development documentation.
 
 - Framework: Next.js
 - Language: TypeScript
-- PDF export: Playwright
+- PDF export: Puppeteer Core with Chromium
 - UI runtime: React
 - Markdown rendering: React Markdown with GitHub Flavored Markdown support
 - Styling: application CSS plus a dedicated document CSS layer
@@ -30,7 +30,7 @@ The first version targets development documentation.
 3. Preview updates as Markdown or style settings change.
 4. User adjusts PDF style settings before export.
 5. User clicks export.
-6. Server-side Playwright renders the export page and returns a PDF download.
+6. Server-side Puppeteer renders the export page and returns a PDF download.
 
 The app should start on the editor experience, not a landing page.
 
@@ -122,9 +122,9 @@ the document keeps a safe, Markdown-first rendering policy.
 - `StylePanel`: updates PDF-oriented style settings.
 - `ExportButton`: submits the document model to the export API.
 - `DocumentRenderer`: shared renderer used by preview and export routes.
-- `ExportPage`: hidden/server-rendered route that Playwright opens for PDF
+- `ExportPage`: hidden/server-rendered route that the PDF generator opens for PDF
   generation.
-- `ExportApi`: validates payload, launches Playwright, renders PDF, and returns
+- `ExportApi`: validates payload, launches Puppeteer/Chromium, renders PDF, and returns
   the file.
 
 ## Data Model
@@ -168,7 +168,7 @@ Preview and PDF export must share:
 - Style setting validation rules
 
 The preview can render directly in the browser. Export should render a stable
-export page with the same document state, then Playwright should print that page
+export page with the same document state, then Puppeteer should print that page
 to PDF.
 
 ## PDF Export Strategy
@@ -179,23 +179,23 @@ The export flow should be:
 2. API validates the payload.
 3. API resolves the export origin from `APP_ORIGIN` when configured, otherwise
    from the request origin. Forwarded host headers are not trusted implicitly.
-4. API opens an internal export route with Playwright. Local development uses
-   the local Playwright Chromium launcher; Vercel uses `@sparticuz/chromium`
-   with `playwright-core` so the serverless function has an executable browser.
+4. API opens an internal export route with Puppeteer. Local development uses
+   Puppeteer Core with the locally installed Chromium; Vercel uses
+   `@sparticuz/chromium` so the serverless function has an executable browser.
 5. Export route renders the document using print-oriented CSS.
-6. Playwright calls `page.pdf()` with the requested page size and `0mm` PDF
+6. Puppeteer calls `page.pdf()` with the requested page size and `0mm` PDF
    margins.
 7. API returns the PDF as a download.
 
-The document margin setting belongs to shared document CSS, not to Playwright
+The document margin setting belongs to shared document CSS, not to browser PDF
 PDF margins. This keeps preview pagination and exported PDF pagination aligned.
-Playwright navigation, readiness checks, and PDF generation use a bounded export
+Puppeteer navigation, readiness checks, and PDF generation use a bounded export
 timeout so a hung render can fail cleanly. The export API declares a Vercel
 function duration budget so cold Chromium extraction has room to complete.
 
 This project should run in a Node.js runtime, not a static export. Serverless
 deployment needs the traced `@sparticuz/chromium` binary files and
-`playwright-core` metadata included in the function bundle.
+Puppeteer runtime files included in the function bundle.
 
 ## Style Controls
 
@@ -217,7 +217,7 @@ Expected first-version errors:
 - Invalid style setting values
 - Missing uploaded image asset
 - PDF export timeout
-- Playwright launch/render failure
+- Puppeteer/Chromium launch/render failure
 
 Errors should be shown in the UI with short actionable messages. Developer
 details can be logged on the server. Validation errors should return 400-level

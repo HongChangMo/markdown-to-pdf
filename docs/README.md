@@ -53,7 +53,8 @@ Selected stack:
 
 - Next.js
 - TypeScript
-- Playwright
+- Puppeteer Core
+- Playwright for E2E tests
 
 ## Spec Files
 
