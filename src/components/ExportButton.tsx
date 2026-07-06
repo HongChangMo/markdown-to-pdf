@@ -9,36 +9,49 @@ type ExportButtonProps = {
 
 export function ExportButton({ document }: ExportButtonProps) {
   const [status, setStatus] = useState("");
+  const [isExporting, setIsExporting] = useState(false);
 
   async function exportPdf() {
-    setStatus("Exporting");
-    const response = await fetch("/api/export", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(document),
-    });
-
-    if (!response.ok) {
-      const body = (await response.json().catch(() => ({ message: "PDF export failed" }))) as {
-        message?: string;
-      };
-      setStatus(body.message ?? "PDF export failed");
+    if (isExporting) {
       return;
     }
 
-    const blob = await response.blob();
-    const href = URL.createObjectURL(blob);
-    const anchor = window.document.createElement("a");
-    anchor.href = href;
-    anchor.download = `${document.title}.pdf`;
-    anchor.click();
-    URL.revokeObjectURL(href);
-    setStatus("Exported");
+    setIsExporting(true);
+    setStatus("Exporting");
+
+    try {
+      const response = await fetch("/api/export", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(document),
+      });
+
+      if (!response.ok) {
+        const body = (await response.json().catch(() => ({ message: "PDF export failed." }))) as {
+          message?: string;
+        };
+        setStatus(body.message ?? "PDF export failed.");
+        return;
+      }
+
+      const blob = await response.blob();
+      const href = URL.createObjectURL(blob);
+      const anchor = window.document.createElement("a");
+      anchor.href = href;
+      anchor.download = `${document.title}.pdf`;
+      anchor.click();
+      URL.revokeObjectURL(href);
+      setStatus("Exported");
+    } catch {
+      setStatus("PDF export failed.");
+    } finally {
+      setIsExporting(false);
+    }
   }
 
   return (
     <>
-      <button type="button" onClick={exportPdf}>
+      <button type="button" onClick={exportPdf} disabled={isExporting}>
         Export PDF
       </button>
       {status ? <span role="status">{status}</span> : null}

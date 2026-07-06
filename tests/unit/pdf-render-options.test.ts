@@ -8,6 +8,8 @@ const mocks = vi.hoisted(() => ({
   waitForSelector: vi.fn(),
   goto: vi.fn(),
   addInitScript: vi.fn(),
+  setDefaultTimeout: vi.fn(),
+  setDefaultNavigationTimeout: vi.fn(),
   newPage: vi.fn(),
   launch: vi.fn(),
 }));
@@ -27,6 +29,8 @@ describe("PDF render options", () => {
     mocks.addInitScript.mockResolvedValue(undefined);
     mocks.newPage.mockResolvedValue({
       addInitScript: mocks.addInitScript,
+      setDefaultTimeout: mocks.setDefaultTimeout,
+      setDefaultNavigationTimeout: mocks.setDefaultNavigationTimeout,
       goto: mocks.goto,
       waitForSelector: mocks.waitForSelector,
       pdf: mocks.pdf,
@@ -60,5 +64,15 @@ describe("PDF render options", () => {
         },
       }),
     );
+  });
+
+  it("rejects when PDF rendering exceeds the configured timeout", async () => {
+    mocks.pdf.mockImplementation(() => new Promise(() => undefined));
+
+    await expect(
+      renderDocumentToPdf(DEFAULT_DOCUMENT_STATE, "http://example.test", { timeoutMs: 1 }),
+    ).rejects.toThrow("PDF export timed out.");
+
+    expect(mocks.close).toHaveBeenCalled();
   });
 });
